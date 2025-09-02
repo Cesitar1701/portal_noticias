@@ -1,0 +1,91 @@
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: center;   /* logo centrado */
+  align-items: center;
+  position: relative;
+  height: 100px;
+  background: #fff;
+  padding: 0 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Logo centrado */
+.logo-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo {
+  height: 200px;
+  width: auto;
+}
+
+/* Barra de búsqueda alineada a la derecha */
+.search-container {
+  position: relative;
+  margin-left: auto; /* manda la barra a la derecha */
+  height: 60px;
+}
+
+/* Input */
+.search-container input {
+  outline: none;
+  box-sizing: border-box;
+  height: 60px;
+  width: 0;
+  padding: 0 20px;
+  color: #000;
+  border-radius: 50px;
+  font-size: 20px;
+  border: 1px solid #D50000;
+  transition: all .7s ease;
+}
+
+/* Placeholder */
+.search-container input::placeholder {
+  color: grey;
+}
+
+/* Botón */
+.search-container .btn {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  background: #D50000;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+  transition: .5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container input {
+  border: 1px solid #D50000;
+  clip-path: inset(0 60px 0 0); /* 🔑 oculta la parte debajo del botón */
+}
+
+.search-container:hover input {
+  clip-path: inset(0 0 0 0); /* 🔑 al expandirse se muestra todo */
+  width: 250px;
+}
+
+.search-container .btn i {
+  font-size: 22px;
+  color: white;
+  transition: all .7s ease;
+}
+
+.search-container:hover i {
+  transform: rotate(-360deg);
+}
+
+.search-container .btn:hover {
+  background: #cc0000;
+}
