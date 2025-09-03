@@ -1,7 +1,6 @@
 /* HEADER */
 .header {
   display: flex;
-  justify-content: center;   /* logo centrado */
   align-items: center;
   position: relative;
   height: 100px;
@@ -26,21 +25,21 @@
 .search-container {
   position: relative;
   margin-left: auto; /* manda la barra a la derecha */
-  height: 60px;
+  justify-content: center;
 }
 
 /* Input */
 .search-container input {
   outline: none;
   box-sizing: border-box;
-  height: 60px;
+  height: 40px;
   width: 0;
   padding: 0 20px;
-  color: #000;
   border-radius: 50px;
   font-size: 20px;
-  border: 1px solid #D50000;
+  border: 1px solid #c70f0f;
   transition: all .7s ease;
+  clip-path: inset(0 60px 0 0); /* oculta la parte debajo del botón */
 }
 
 /* Placeholder */
@@ -54,25 +53,20 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  background: #D50000;
+  width: 50px;
+  height: 50px;
+  background: #c70f0f;
   border-radius: 50%;
   text-align: center;
   cursor: pointer;
   transition: .5s;
-  display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
 }
 
-.search-container input {
-  border: 1px solid #D50000;
-  clip-path: inset(0 60px 0 0); /* 🔑 oculta la parte debajo del botón */
-}
-
-.search-container:hover input {
-  clip-path: inset(0 0 0 0); /* 🔑 al expandirse se muestra todo */
+.search-container.active input {
+  clip-path: inset(0 0 0 0); /* al expandirse se muestra todo */
   width: 250px;
 }
 
@@ -82,10 +76,69 @@
   transition: all .7s ease;
 }
 
-.search-container:hover i {
+.search-container.active i {
   transform: rotate(-360deg);
 }
 
-.search-container .btn:hover {
-  background: #cc0000;
+
+/* Contenedor del menú */
+.menu-container {
+  position: relative;
+  margin-right: auto;
 }
+
+/* Botón hamburguesa */
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Menú oculto por defecto */
+.menu {
+  position: absolute;
+  top: 60px; /* se despliega hacia abajo */
+  right: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  width: 200px;
+  display: none; /* oculto inicialmente */
+  z-index: 1000;
+}
+
+/* Lista del menú */
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  border-bottom: 1px solid #eee;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+.menu a {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.3s;
+}
+
+.menu a:hover {
+  background: #f5f5f5;
+}
+
+/* Menú activo */
+.menu-container.active .menu {
+  display: block;
+}
+
+
