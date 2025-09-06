@@ -43,49 +43,63 @@
 </header>
 
 
-<!-- Widget compacto del clima -->
-<div class="weather-widget" id="weatherWidget">
-  <p class="city">El clima en 
-    <span id="cityName">--</span>
-    <select id="citySelector">
-      <option value="">-- Cambiar ciudad --</option>
-      <option value="Buenos Aires,AR">Buenos Aires</option>
-      <option value="Cordoba,AR">Córdoba</option>
-      <option value="San Salvador de Jujuy,AR">Jujuy</option>
-      <option value="Neuquen,AR">Neuquén</option>
-      <option value="Mendoza,AR">Mendoza</option>
-    </select>
-  </p>
-  <div class="weather-main">
-    <div class="icon" id="weatherIcon">☀️</div>
-    <div class="temp">
-      <span id="temperature">--</span>°
-      <span id="humidity">--%</span>
+<div class="flex-cli-do">
+  <!-- Widget compacto del clima -->
+  <div class="weather-widget" id="weatherWidget">
+    <p class="city">El clima en 
+      <span id="cityName">--</span>
+      <select id="citySelector">
+        <option value="">-- Cambiar ciudad --</option>
+        <option value="Buenos Aires,AR">Buenos Aires</option>
+        <option value="Cordoba,AR">Córdoba</option>
+        <option value="San Salvador de Jujuy,AR">Jujuy</option>
+        <option value="Neuquen,AR">Neuquén</option>
+        <option value="Mendoza,AR">Mendoza</option>
+      </select>
+    </p>
+    <div class="weather-main">
+      <div class="icon" id="weatherIcon">☀️</div>
+      <div class="temp">
+        <span id="temperature">--</span>°
+        <span id="humidity">--%</span>
+      </div>
     </div>
   </div>
+
+  <!-- Inicio Dolar Cotizaciones -->
+  <div class="dolar-widget-inline" id="dolarInline"></div>
+  <!-- Fin dolar Cotizaciones -->
+
 </div>
 
 <!-- Modal detalles -->
-<div class="weather-modal" id="weatherModal">
-  <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
-    <h3 id="dateLocation"></h3>
-    <div class="modal-main">
-      <div class="modal-icon" id="modalIcon">☀️</div>
-      <div class="modal-temp">
-        <span id="modalTemp">--</span>°
+  <div class="weather-modal" id="weatherModal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h3 id="dateLocation"></h3>
+      <div class="modal-main">
+        <div class="modal-icon" id="modalIcon">☀️</div>
+        <div class="modal-temp">
+          <span id="modalTemp">--</span>°
+        </div>
+        <div class="details">
+          <p><b>Humedad:</b> <span id="modalHumidity">--%</span></p>
+          <p><b>Presión:</b> <span id="modalPressure">-- hPa</span></p>
+          <p><b>Viento:</b> <span id="modalWind">-- km/h</span></p>
+        </div>
       </div>
-      <div class="details">
-        <p><b>Humedad:</b> <span id="modalHumidity">--%</span></p>
-        <p><b>Presión:</b> <span id="modalPressure">-- hPa</span></p>
-        <p><b>Viento:</b> <span id="modalWind">-- km/h</span></p>
+      <div class="forecast" id="forecast">
+        <!-- Pronóstico días siguientes -->
       </div>
-    </div>
-    <div class="forecast" id="forecast">
-      <!-- Pronóstico días siguientes -->
     </div>
   </div>
-</div>
+
+<!-- Botones flotantes (solo móvil) -->
+<button class="info-toggle clima-btn" id="climaToggle">🌤️</button>
+<div class="info-panel" id="climaPanel"></div>
+
+<button class="info-toggle dolar-btn" id="dolarToggle">💵</button>
+<div class="info-panel" id="dolarPanel"></div>
 
 
 

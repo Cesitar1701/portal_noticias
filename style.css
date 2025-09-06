@@ -2,7 +2,7 @@
 .header {
   display: flex;
   align-items: center;
-  position: relative;
+  justify-content: space-around;
   height: 100px;
   background: #fff;
   padding: 0 30px;
@@ -12,10 +12,7 @@
 /* Logo centrado */
 .logo-container {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 }
-
 .logo {
   height: 200px;
   width: auto;
@@ -27,7 +24,6 @@
 .search-container {
   position: relative;
   margin-left: auto; /* manda la barra a la derecha */
-  justify-content: center;
 }
 
 /* Input */
@@ -58,7 +54,7 @@
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
-  background: #c70f0f;
+  background: #1b1b1b;
   border-radius: 50%;
   text-align: center;
   cursor: pointer;
@@ -123,13 +119,17 @@
 
 /* Final CSS del Menu*/
 
+.flex-cli-do {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
 
 /* Inicio CSS del Widget del clima*/
-
 /* Widget compacto */
-.weather-widget {
+.weather-widget {     
   display: inline-block;
-  padding: 10px;
   cursor: pointer;
   font-family: 'Times New Roman', Times, serif;
 }
@@ -228,3 +228,67 @@
 }
 
 /* Final CSS del Widget del clima*/
+
+/* Inicio Dolar Cotizaciones */
+.dolar-widget-inline {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+.dolar-widget-inline span {
+  margin-right: 8px;
+}
+
+.dolar-widget-inline b {
+  font-weight: bold;
+}
+
+/* Fin Dolar Cotizaciones */
+
+
+
+
+/* Botones flotantes */
+.info-toggle {
+  display: none; /* ocultos en desktop */
+  position: fixed;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background: #1b1b1b;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 2000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Posición de cada botón */
+.clima-btn {
+  bottom: 80px;
+  right: 15px;
+}
+.dolar-btn {
+  bottom: 15px;
+  right: 15px;
+}
+
+/* Panel oculto */
+.info-panel {
+  display: none;
+  position: fixed;
+  text-align: center;
+  bottom: 150px;
+  right: 15px;
+  width: 90%;
+  max-width: 350px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  z-index: 1999;
+  font-family: Arial, sans-serif;
+}

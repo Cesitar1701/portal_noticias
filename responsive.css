@@ -30,6 +30,14 @@
   .menu-container.active .menu ul {
     display: flex;
   }
+
+  .info-toggle {
+    display: block;
+  }
+  /* Ocultar widgets normales en móvil */
+  .flex-cli-do {
+    display: none;
+  }
 }
 
 /* TABLETS */
