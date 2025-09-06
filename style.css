@@ -21,6 +21,8 @@
   width: auto;
 }
 
+/* Inicio CSS de barra de Busqueda */
+
 /* Barra de búsqueda alineada a la derecha */
 .search-container {
   position: relative;
@@ -40,6 +42,7 @@
   border: 1px solid #c70f0f;
   transition: all .7s ease;
   clip-path: inset(0 60px 0 0); /* oculta la parte debajo del botón */
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Placeholder */
@@ -79,66 +82,149 @@
 .search-container.active i {
   transform: rotate(-360deg);
 }
+/* Final CSS de barra de Busqueda */
 
+/* Inicio CSS del Menu*/
 
-/* Contenedor del menú */
+/* --------- MENÚ GENERAL --------- */
 .menu-container {
   position: relative;
   margin-right: auto;
 }
 
-/* Botón hamburguesa */
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-/* Menú oculto por defecto */
-.menu {
-  position: absolute;
-  top: 60px; /* se despliega hacia abajo */
-  right: auto;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  width: 200px;
-  display: none; /* oculto inicialmente */
-  z-index: 1000;
-}
-
-/* Lista del menú */
 .menu ul {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.menu li {
-  border-bottom: 1px solid #eee;
-}
-
-.menu li:last-child {
-  border-bottom: none;
+  display: flex; /* por defecto en fila */
+  gap: 10px;
 }
 
 .menu a {
-  display: block;
-  padding: 12px 16px;
   text-decoration: none;
   color: #333;
-  transition: background 0.3s;
+  font-weight:bold;
+  transition: color 0.3s;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .menu a:hover {
-  background: #f5f5f5;
+  color: #D50000;
 }
 
-/* Menú activo */
-.menu-container.active .menu {
-  display: block;
+/* --------- BOTÓN HAMBURGUESA --------- */
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  display: none; /* oculto en escritorio */
 }
 
+/* Final CSS del Menu*/
 
+
+/* Inicio CSS del Widget del clima*/
+
+/* Widget compacto */
+.weather-widget {
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.weather-widget .city {
+  font-size: 14px;
+  margin: 0 0 5px 0;
+}
+
+.weather-widget .weather-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.weather-widget .icon {
+  font-size: 30px;
+}
+
+.weather-widget .temp {
+  font-size: 20px;
+  color: #a00;
+}
+
+/* Modal */
+.weather-modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.modal-icon {
+  font-size: 60px;
+}
+
+.modal-temp {
+  font-size: 40px;
+  color: #a00;
+}
+
+.details p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.forecast {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.forecast-day {
+  text-align: center;
+}
+
+.forecast-day .icon {
+  font-size: 30px;
+}
+
+/* Selector de ciudades */
+#citySelector {
+  margin-left: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Final CSS del Widget del clima*/

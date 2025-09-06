@@ -1,0 +1,59 @@
+/* MÓVILES */
+@media (max-width: 768px) {
+  .menu ul {
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e2dddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    position: absolute;
+    top: 50px;
+    right: auto;
+    width: 150px;
+    text-align: center;
+    display: none;
+  }
+
+  .menu li {
+    border-bottom: 1px solid #eee;
+  }
+
+  .menu li:last-child {
+    border-bottom: none;
+  }
+
+  .menu-btn {
+    display: block; /* hamburguesa visible */
+  }
+
+  .menu-container.active .menu ul {
+    display: flex;
+  }
+}
+
+/* TABLETS */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .menu ul {
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e2dddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    position: absolute;
+    top: 60px;
+    right: auto;
+    width: 200px;
+    text-align: center;
+    display: none;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .menu-container.active .menu ul {
+    display: flex;
+  }
+}

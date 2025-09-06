@@ -7,6 +7,7 @@
   <script src="https://kit.fontawesome.com/b84ea165ee.js" crossorigin="anonymous"></script>
   <!-- Vinculamos el archivo CSS -->
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css"9->
 </head>
 <body>
 
@@ -41,7 +42,55 @@
   </div>
 </header>
 
+
+<!-- Widget compacto del clima -->
+<div class="weather-widget" id="weatherWidget">
+  <p class="city">El clima en 
+    <span id="cityName">--</span>
+    <select id="citySelector">
+      <option value="">-- Cambiar ciudad --</option>
+      <option value="Buenos Aires,AR">Buenos Aires</option>
+      <option value="Cordoba,AR">Córdoba</option>
+      <option value="San Salvador de Jujuy,AR">Jujuy</option>
+      <option value="Neuquen,AR">Neuquén</option>
+      <option value="Mendoza,AR">Mendoza</option>
+    </select>
+  </p>
+  <div class="weather-main">
+    <div class="icon" id="weatherIcon">☀️</div>
+    <div class="temp">
+      <span id="temperature">--</span>°
+      <span id="humidity">--%</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal detalles -->
+<div class="weather-modal" id="weatherModal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h3 id="dateLocation"></h3>
+    <div class="modal-main">
+      <div class="modal-icon" id="modalIcon">☀️</div>
+      <div class="modal-temp">
+        <span id="modalTemp">--</span>°
+      </div>
+      <div class="details">
+        <p><b>Humedad:</b> <span id="modalHumidity">--%</span></p>
+        <p><b>Presión:</b> <span id="modalPressure">-- hPa</span></p>
+        <p><b>Viento:</b> <span id="modalWind">-- km/h</span></p>
+      </div>
+    </div>
+    <div class="forecast" id="forecast">
+      <!-- Pronóstico días siguientes -->
+    </div>
+  </div>
+</div>
+
+
+
 <script src="script.js"></script>
+<script src="clima.js"></script>
 
 </body>
 </html>
