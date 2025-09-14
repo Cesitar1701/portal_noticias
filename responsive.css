@@ -25,6 +25,7 @@
 
   .menu-btn {
     display: block; /* hamburguesa visible */
+    font-size: 20px;
   }
 
   .menu-container.active .menu ul {
@@ -37,6 +38,18 @@
   /* Ocultar widgets normales en móvil */
   .flex-cli-do {
     display: none;
+  }
+  .search-container input{
+    height: 30px;
+    font-size: 15px;
+    opacity: 90%;
+  }
+  .search-container .btn{
+    width: 35px;
+    height: 35px;
+  }
+  .search-container .btn i{
+    font-size: 15px;
   }
 }
 
