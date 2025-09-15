@@ -51,6 +51,17 @@
   .search-container .btn i{
     font-size: 15px;
   }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    position: static;
+    background: #000;
+    color: #fff;
+    border-radius: 0;
+    max-width: 100%;
+  }
 }
 
 /* TABLETS */
@@ -76,5 +87,8 @@
 
   .menu-container.active .menu ul {
     display: flex;
+  }
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

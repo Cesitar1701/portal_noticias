@@ -95,168 +95,55 @@
   </div>
 
 <!-- Botones flotantes (solo móvil) -->
-<button class="info-toggle clima-btn" id="climaToggle">🌤️</button>
+<button class="info-toggle clima-btn fa-solid fa-cloud-sun" id="climaToggle"></button>
 <div class="info-panel" id="climaPanel"></div>
 
-<button class="info-toggle dolar-btn" id="dolarToggle">💵</button>
+<button class="info-toggle dolar-btn fa-solid fa-sack-dollar" id="dolarToggle"></button>
 <div class="info-panel" id="dolarPanel"></div>
 
+
+<!-- Cuerpo de la pagina -->
 <main class="main columns">
-  <section class="column main-column">
-    <a class="article first-article" href="#">
-      <figure class="article-image is-4by3">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/image-01-lo.jpg" alt="">
-      </figure>
-      <div class="article-body">
-        <h2 class="article-title">
-          Hello World
-        </h2>
-        <p class="article-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros.
-        </p>
-        <footer class="article-info">
-          <span>By Joe Smith</span>
-          <span>42 comments</span>
-        </footer>
-      </div>
-    </a>
-
-    <div class="columns">
-      <div class="column nested-column">
-        <a class="article" href="#">
-          <figure class="article-image is-16by9">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/image-02-lo.jpg" alt="">
-          </figure>
-          <div class="article-body">
-            <h2 class="article-title">
-              Hello World
-            </h2>
-            <p class="article-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-            </p>
-            <footer class="article-info">
-              <span>By Joe Smith</span>
-              <span>42 comments</span>
-            </footer>
-          </div>
-        </a>
-      </div>
-
-      <div class="column">
-        <a class="article" href="#">
-          <figure class="article-image is-16by9">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/image-03-lo.jpg" alt="">
-          </figure>
-          <div class="article-body">
-            <h2 class="article-title">
-              Hello World
-            </h2>
-            <p class="article-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-            <footer class="article-info">
-              <span>By Joe Smith</span>
-              <span>42 comments</span>
-            </footer>
-          </div>
-        </a>
-        <a class="article" href="#">
-          <div class="article-body">
-            <h2 class="article-title">
-              Hello World
-            </h2>
-            <p class="article-content">
-              Lorem ipsum dolor sit amet.
-            </p>
-            <footer class="article-info">
-              <span>By Joe Smith</span>
-              <span>42 comments</span>
-            </footer>
-          </div>
-        </a>
-        <a class="article" href="#">
-          <div class="article-body">
-            <h2 class="article-title">
-              Hello World
-            </h2>
-            <p class="article-content">
-              Lorem ipsum dolor sit amet feugiat facilisis.
-            </p>
-            <footer class="article-info">
-              <span>By Joe Smith</span>
-              <span>42 comments</span>
-            </footer>
-          </div>
-        </a>
-      </div>
+  <!-- Destacado -->
+  <section class="hero">
+    <img src="https://media.tycsports.com/files/2025/09/14/882975/rosario-central-boca_862x485.webp?v=1" alt="Noticia destacada">
+    <div class="hero-content">
+      <h1>Título de la Noticia Principal</h1>
+      <p>Un breve resumen de la noticia principal para captar la atención del lector y motivar a leer más.</p>
+      <a href="#" class="btn">Leer más</a>
     </div>
   </section>
 
-  <section class="column">
-    <a class="article" href="#">
-      <figure class="article-image is-3by2">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/image-04-lo.jpg" alt="">
-      </figure>
-      <div class="article-body">
-        <h2 class="article-title">
-          Hello World
-        </h2>
-        <p class="article-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <footer class="article-info">
-          <span>By Joe Smith</span>
-          <span>42 comments</span>
-        </footer>
+  <!-- Grid de noticias secundarias -->
+  <section class="news-grid">
+    <article class="news-card">
+      <img src="https://media.tycsports.com/files/2025/09/14/882783/alexis-mac-allister_416x234.webp" alt="Noticia 1">
+      <div class="content">
+        <h2>Noticia Secundaria 1</h2>
+        <p>Resumen breve de la noticia secundaria 1 para dar contexto rápido al lector.</p>
+        <a href="#">Leer más →</a>
       </div>
-    </a>
-    <a class="article" href="#">
-      <div class="article-body">
-        <h2 class="article-title">
-          Hello World
-        </h2>
-        <p class="article-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <footer class="article-info">
-          <span>By Joe Smith</span>
-          <span>42 comments</span>
-        </footer>
+    </article>
+
+    <article class="news-card">
+      <img src="https://media.tycsports.com/files/2025/09/14/882935/claudio-echeverri-bayer-leverkusen_416x234.webp" alt="Noticia 2">
+      <div class="content">
+        <h2>Noticia Secundaria 2</h2>
+        <p>Resumen breve de la noticia secundaria 2 para dar contexto rápido al lector.</p>
+        <a href="#">Leer más →</a>
       </div>
-    </a>
-    <a class="article" href="#">
-      <div class="article-body">
-        <h2 class="article-title">
-          Hello World
-        </h2>
-        <p class="article-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <footer class="article-info">
-          <span>By Joe Smith</span>
-          <span>42 comments</span>
-        </footer>
+    </article>
+
+    <article class="news-card">
+      <img src="https://media.tycsports.com/files/2025/09/14/882778/franco-colapinto-piloto-de-alpine_416x234.webp?v=1" alt="Noticia 3">
+      <div class="content">
+        <h2>Noticia Secundaria 3</h2>
+        <p>Resumen breve de la noticia secundaria 3 para dar contexto rápido al lector.</p>
+        <a href="#">Leer más →</a>
       </div>
-    </a>
-    <a class="article" href="#">
-      <div class="article-body">
-        <h2 class="article-title">
-          Hello World
-        </h2>
-        <p class="article-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <footer class="article-info">
-          <span>By Joe Smith</span>
-          <span>42 comments</span>
-        </footer>
-      </div>
-    </a>
+    </article>
   </section>
+
 </main>
 
 <script src="script.js"></script>
