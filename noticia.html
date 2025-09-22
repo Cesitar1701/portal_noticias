@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noticia completa</title>
+  <script src="https://kit.fontawesome.com/b84ea165ee.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="stylenoti.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo-container">
+      <img src="img/logo1.png" alt="Logo Que Pasa Jujuy" class="logo">
+    </div>
+
+    <!-- Botón de menú hamburguesa -->
+    <div class="menu-container">
+      <button class="menu-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="menu">
+        <ul>
+          <li><a href="#">POLÍTICA</a></li>
+          <li><a href="#">SALUD</a></li>
+          <li><a href="#">POLICIALES</a></li>
+          <li><a href="#">TURISMO</a></li>
+          <li><a href="#">DEPORTES</a></li>
+          <li><a href="#">EMPLEOS</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Barra de busqueda -->
+    <div class="search-container">
+      <input type="text" placeholder="Buscar noticias...">
+      <button class="btn">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="news-article">
+    <!-- Hero -->
+    <section class="news-hero">
+      <img src="https://media.tycsports.com/files/2025/09/14/882975/rosario-central-boca_862x485.webp?v=1"
+        alt="Imagen destacada de la noticia">
+    </section>
+
+    <!-- Cuerpo de la noticia -->
+    <article class="news-body">
+      <h1 class="news-title">Paredes, rendido ante Di María tras su golazo contra Boca: "Si no era por su jerarquía,
+        creo que terminaba 1-0"</h1>
+      <p class="news-meta">14 de septiembre 2025 • Redacción NOTIPLUS</p>
+
+      <p>
+        El volante de Boca se llenó de elogios para con Fideo, quien anotó un gol olímpico para Rosario Central. También
+        intercambiaron camisetas.
+      </p>
+
+      <p>
+        El desarrollo de la noticia debe escribirse en párrafos cortos,
+        facilitando la lectura y resaltando los datos más importantes.
+      </p>
+
+      <!-- Imagen dentro del artículo -->
+      <figure>
+        <img src="https://media.tycsports.com/files/2025/09/14/883028/paredes-di-maria_416x234.webp"
+          alt="Imagen ilustrativa">
+        <figcaption>Leandro Paredes y Ángel Di María se encontraron en el empate entre Rosario Central y Boca.
+        </figcaption>
+      </figure>
+
+      <!-- Video de YouTube 
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+          title="Video relacionado"
+          frameborder="0"
+          allowfullscreen>
+        </iframe>
+      </div>-->
+
+      <!-- Video local (ejemplo MP4) -->
+      <div class="video-container">
+        <video controls>
+          <source src="video-ejemplo.mp4" type="video/mp4">
+          Tu navegador no soporta videos HTML5.
+        </video>
+      </div>
+
+      <p>
+        El cierre de la noticia puede incluir conclusiones,
+        citas o próximos pasos relacionados con el tema.
+      </p>
+    </article>
+  </main>
+
+
+  <!-- Swiper -->
+  <div class="container swiper">
+    <div class="wrapper">
+      <div class="card-list swiper-wrapper">
+        <!-- Single Card -->
+        <div class="card swiper-slide">
+          <div class="card-image">
+            <img
+              src="https://media.tycsports.com/files/2025/09/14/882999/angel-di-maria-leandro-paredes-lautaro-blanco_862x485.webp"
+              alt="Noticia" />
+            <div class="card-tag">Nuevo</div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Tarde especial para Di María: reencuentro con Paredes y las camisetas que se llevó
+            </h3>
+            <a href="#" class="btn">Ver mas</a>
+          </div>
+        </div>
+
+        <div class="card swiper-slide">
+          <div class="card-image">
+            <img
+              src="https://media.tycsports.com/files/2025/09/14/882999/angel-di-maria-leandro-paredes-lautaro-blanco_862x485.webp"
+              alt="Noticia">
+          </div>
+          <h3>Tarde especial para Di María: reencuentro con Paredes y las camisetas que se llevó</h3>
+          <a href="noticia.html" class="btn">Leer más</a>
+        </div>
+
+        <div class="card swiper-slide">
+          <div class="card-image">
+            <img
+              src="https://media.tycsports.com/files/2025/09/14/882999/angel-di-maria-leandro-paredes-lautaro-blanco_862x485.webp"
+              alt="Noticia">
+          </div>
+          <h3>Tarde especial para Di María: reencuentro con Paredes y las camisetas que se llevó</h3>
+          <a href="noticia.html" class="btn">Leer más</a>
+        </div>
+        <div class="card swiper-slide">
+          <div class="card-image">
+            <img
+              src="https://media.tycsports.com/files/2025/09/14/882999/angel-di-maria-leandro-paredes-lautaro-blanco_862x485.webp"
+              alt="Noticia">
+          </div>
+          <h3>Tarde especial para Di María: reencuentro con Paredes y las camisetas que se llevó</h3>
+          <a href="noticia.html" class="btn">Leer más</a>
+        </div>
+
+        <div class="card swiper-slide">
+          <div class="card-image">
+            <img
+              src="https://media.tycsports.com/files/2025/09/14/882999/angel-di-maria-leandro-paredes-lautaro-blanco_862x485.webp"
+              alt="Noticia">
+          </div>
+          <h3>Tarde especial para Di María: reencuentro con Paredes y las camisetas que se llevó</h3>
+          <a href="noticia.html" class="btn">Leer más</a>
+        </div>
+
+      </div>
+
+
+
+
+
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Navigation Buttons -->
+      <div class="swiper-slide-button swiper-button-prev"></div>
+      <div class="swiper-slide-button swiper-button-next"></div>
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    new Swiper(".wrapper", {
+      loop: true,
+      spaceBetween: 30,
+      // Autoplay
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      // Pagination bullets
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+        dynamicBullets: true,
+      },
+      // Navigation arrows
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      // Responsive breakpoints
+      breakpoints: {
+        0: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>
