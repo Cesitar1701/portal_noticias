@@ -62,6 +62,12 @@
     border-radius: 0;
     max-width: 100%;
   }
+  .wrapper {
+    margin: 0 10px 25px;
+  }
+  .wrapper :where(.swiper-button-prev, .swiper-button-next) {
+    display: none !important;
+  }
 }
 
 /* TABLETS */
