@@ -1,153 +1,686 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOTIPLUS</title>
-  <script src="https://kit.fontawesome.com/b84ea165ee.js" crossorigin="anonymous"></script>
-  <!-- Vinculamos el archivo CSS -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal de Noticias — HTML+CSS puro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="responsive.css">
+  <script src="https://kit.fontawesome.com/b84ea165ee.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
+  <a class="sr" href="#contenido">Saltar al contenido</a>
 
-<header class="header">
-  <div class="logo-container">
-    <img src="img/logo1.png" alt="Logo Que Pasa Jujuy" class="logo">
-  </div>
+  <!-- Header (logo left + icons right) -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="logo">
+          <img src="img/logo2.png" alt="Logo" />
+        </a>
+      </div>
+      <div class="menu-container">
+        <button class="menu-btn" id="menu-open" type="button" aria-label="Abrir menú"><i
+            class="fa-solid fa-bars"></i></button>
+        <nav class="header-nav">
+          <ul>
+            <li><a href="#">POLÍTICA</a></li>
+            <li><a href="#">SALUD</a></li>
+            <li><a href="#">POLICIALES</a></li>
+            <li><a href="#">TURISMO</a></li>
+            <li><a href="#">DEPORTES</a></li>
+            <li><a href="#">EMPLEOS</a></li>
+            <li><a href="#">TECNOLOGÍA</a></li>
+            <li><a href="#">INTERNACIONAL</a></li>
+          </ul>
+        </nav>
+      </div>
 
-  <!-- Botón de menú hamburguesa -->
-<div class="menu-container">
-  <button class="menu-btn">
-    <i class="fa-solid fa-bars"></i>
-  </button>
-  <nav class="menu">
-    <ul>
-      <li><a href="#">POLÍTICA</a></li>
-      <li><a href="#">SALUD</a></li>
-      <li><a href="#">POLICIALES</a></li>
-      <li><a href="#">TURISMO</a></li>
-      <li><a href="#">DEPORTES</a></li>
-      <li><a href="#">EMPLEOS</a></li>
-    </ul>
-  </nav>
-</div>
-
-  <!-- Barra de busqueda -->
-  <div class="search-container">
-    <input type="text" placeholder="Buscar noticias...">
-    <button class="btn">
-      <i class="fa fa-search"></i>
-    </button>
-  </div>
-</header>
-
-
-<div class="flex-cli-do">
-  <!-- Widget compacto del clima -->
-  <div class="weather-widget" id="weatherWidget">
-    <p class="city">El clima en 
-      <span id="cityName">--</span>
-      <select id="citySelector">
-        <option value="">-- Cambiar ciudad --</option>
-        <option value="Buenos Aires,AR">Buenos Aires</option>
-        <option value="Cordoba,AR">Córdoba</option>
-        <option value="San Salvador de Jujuy,AR">Jujuy</option>
-        <option value="Neuquen,AR">Neuquén</option>
-        <option value="Mendoza,AR">Mendoza</option>
-      </select>
-    </p>
-    <div class="weather-main">
-      <div class="icon" id="weatherIcon">☀️</div>
-      <div class="temp">
-        <span id="temperature">--</span>°
-        <span id="humidity">--%</span>
+      <div class="header-right">
+        <button class="btn-circle dark"><i class="fa fa-search"></i></button>
+        <button class="btn-circle"><i class="fa-regular fa-moon"></i></button>
+        <button class="btn-login"><i class="fa-regular fa-user"></i> Ingresar</button>
       </div>
     </div>
-  </div>
+    <hr class="header-divider">
+  </header>
 
-  <!-- Inicio Dolar Cotizaciones -->
-  <div class="dolar-widget-inline" id="dolarInline"></div>
-  <!-- Fin dolar Cotizaciones -->
-
-</div>
-
-<!-- Modal detalles -->
-  <div class="weather-modal" id="weatherModal">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <h3 id="dateLocation"></h3>
-      <div class="modal-main">
-        <div class="modal-icon" id="modalIcon">☀️</div>
-        <div class="modal-temp">
-          <span id="modalTemp">--</span>°
+  <main id="contenido" class="container">
+    <!-- Featured -->
+    <section class="featured">
+      <article class="feature-card">
+        <img class="feature-media"
+          src="https://images.unsplash.com/photo-1698844013403-b7c4cf0d3b2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+          alt="Partido de fútbol en estadio">
+        <!-- bookmark button top-right -->
+        <button class="feature-bookmark" aria-label="Guardar noticia"><i class="fa-regular fa-bookmark"></i></button>
+        <div class="feature-body">
+          <div class="feature-content">
+            <span class="chip">DEPORTES</span>
+            <div class="meta"><i class="fa-regular fa-clock"></i> hace 1 hora</div>
+            <h1>Victoria histórica en el clásico: El equipo local consigue un triunfo memorable</h1>
+            <p class="desc">Un emocionante partido que mantuvo a todos al borde de sus asientos culminó con una victoria
+              espectacular del equipo local en el estadio lleno.</p>
+            <a class="read-more" href="#article-modal">Leer más →</a>
+          </div>
         </div>
-        <div class="details">
-          <p><b>Humedad:</b> <span id="modalHumidity">--%</span></p>
-          <p><b>Presión:</b> <span id="modalPressure">-- hPa</span></p>
-          <p><b>Viento:</b> <span id="modalWind">-- km/h</span></p>
+      </article>
+    </section>
+
+    <!-- Grid principal: últimas + aside -->
+    <section class="grid-main">
+      <div class="col-main">
+        <h2 class="section-title with-accent">Últimas Noticias</h2>
+        <div class="cards-3">
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1698844013403-b7c4cf0d3b2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              alt="" class="cover">
+            <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
+            <div class="body">
+              <span class="kicker">DEPORTES</span>
+              <div class="card-meta"><i class="fa-regular fa-clock"></i> hace 1 hora</div>
+              <h3>Victoria histórica en el clásico: El equipo local consigue un triunfo memorable</h3>
+              <p>Un emocionante partido que mantuvo a todos al borde de sus asientos.</p>
+              <a class="read-more" href="#article-modal">Leer más <span class="arrow">→</span></a>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1668874896975-7f874c90600a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              alt="" class="cover">
+            <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
+            <div class="body">
+              <span class="kicker">SALUD</span>
+              <div class="card-meta"><i class="fa-regular fa-clock"></i> hace 2 horas</div>
+              <h3>Avance médico revolucionario en tratamiento de enfermedades crónicas</h3>
+              <p>Científicos anuncian un descubrimiento que podría cambiar el panorama de la medicina.</p>
+              <a class="read-more" href="#article-modal">Leer más <span class="arrow">→</span></a>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1510993968327-0766450f8a11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              alt="" class="cover">
+            <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
+            <div class="body">
+              <span class="kicker">POLÍTICA</span>
+              <div class="card-meta"><i class="fa-regular fa-clock"></i> hace 3 horas</div>
+              <h3>Nuevas reformas legislativas aprobadas en unanimidad</h3>
+              <p>El parlamento aprueba por unanimidad importantes reformas que impactarán en la economía.</p>
+              <a class="read-more" href="#article-modal">Leer más <span class="arrow">→</span></a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Tabs por categoría (CSS-only con radios) -->
+        <section class="tabs">
+          <h2 class="section-title with-accent">Noticias por categoría</h2>
+          <div class="tabs-controls">
+            <input type="radio" name="tabs" id="tab-todas" checked>
+            <label for="tab-todas">Todas</label>
+            <input type="radio" name="tabs" id="tab-politica">
+            <label for="tab-politica">Política</label>
+            <input type="radio" name="tabs" id="tab-salud">
+            <label for="tab-salud">Salud</label>
+            <input type="radio" name="tabs" id="tab-policiales">
+            <label for="tab-policiales">Policiales</label>
+            <input type="radio" name="tabs" id="tab-turismo">
+            <label for="tab-turismo">Turismo</label>
+            <input type="radio" name="tabs" id="tab-deportes">
+            <label for="tab-deportes">Deportes</label>
+            <input type="radio" name="tabs" id="tab-empleos">
+            <label for="tab-empleos">Empleos</label>
+            <input type="radio" name="tabs" id="tab-tecno">
+            <label for="tab-tecno">Tecnología</label>
+            <input type="radio" name="tabs" id="tab-internacional">
+            <label for="tab-internacional">Internacional</label>
+          </div>
+
+        </section>
+      </div>
+
+      <!-- Aside -->
+      <aside class="col-aside">
+        <section class="widget weather">
+          <div class="weather-inner">
+            <div class="weather-top">
+              <div class="city-dropdown">
+                <button id="city-btn" class="weather-city-btn" aria-haspopup="true" aria-expanded="false">Buenos Aires
+                  <i class="fa-solid fa-caret-down"></i></button>
+                <ul id="city-menu" class="city-menu" role="menu" aria-hidden="true">
+                  <li role="menuitem" data-city="Buenos Aires" class="active">Buenos Aires</li>
+                  <li role="menuitem" data-city="Chaco">Chaco</li>
+                  <li role="menuitem" data-city="Córdoba">Córdoba</li>
+                  <li role="menuitem" data-city="Entre Ríos">Entre Ríos</li>
+                  <li role="menuitem" data-city="Mendoza">Mendoza</li>
+                  <li role="menuitem" data-city="Neuquén">Neuquén</li>
+                  <li role="menuitem" data-city="Salta">Salta</li>
+                  <li role="menuitem" data-city="San Juan">San Juan</li>
+                  <li role="menuitem" data-city="Santa Fe">Santa Fe</li>
+                  <li role="menuitem" data-city="Tucumán">Tucumán</li>
+                </ul>
+              </div>
+              <div class="weather-icon"><i class="fa-regular fa-sun"></i></div>
+            </div>
+            <div class="weather-updated">Actualizado hoy</div>
+            <div class="weather-temp"><span class="temp">24</span><span class="deg">°</span><span class="unit">C</span>
+            </div>
+            <div class="weather-desc">Parcialmente nublado</div>
+            <hr class="weather-divider">
+            <div class="weather-stats">
+              <div class="stat">
+                <div class="stat-icon"><i class="fa-solid fa-wind"></i></div>
+                <div class="stat-body">
+                  <div class="stat-label">Viento</div>
+                  <div class="stat-value">12 km/h</div>
+                </div>
+              </div>
+              <div class="stat">
+                <div class="stat-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="stat-body">
+                  <div class="stat-label">Humedad</div>
+                  <div class="stat-value">65%</div>
+                </div>
+              </div>
+            </div>
+            <hr class="weather-divider">
+            <div class="weather-forecast">
+              <div class="day">
+                <div class="day-name">Vie</div>
+                <div class="day-icon"><i class="fa-regular fa-cloud"></i></div>
+                <div class="day-temp">22°</div>
+              </div>
+              <div class="day">
+                <div class="day-name">Sáb</div>
+                <div class="day-icon"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
+                <div class="day-temp">23°</div>
+              </div>
+              <div class="day">
+                <div class="day-name">Dom</div>
+                <div class="day-icon"><i class="fa-regular fa-sun"></i></div>
+                <div class="day-temp">24°</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="widget currency">
+          <div class="currency-inner">
+            <div class="currency-head">
+              <h3>Cotización del Dólar</h3>
+              <div class="currency-updated">Actualizado hoy</div>
+            </div>
+
+            <div class="currency-list">
+              <div class="currency-item">
+                <div class="ci-top">
+                  <div class="ci-name">Dólar Oficial</div>
+                  <div class="ci-change up">+2.5</div>
+                </div>
+                <div class="ci-rates">
+                  <div class="rate">
+                    <div class="rate-label">Compra:</div>
+                    <div class="rate-value">$360.50</div>
+                  </div>
+                  <div class="rate">
+                    <div class="rate-label">Venta:</div>
+                    <div class="rate-value">$380.50</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="currency-item">
+                <div class="ci-top">
+                  <div class="ci-name">Dólar Blue</div>
+                  <div class="ci-change up">+15.0</div>
+                </div>
+                <div class="ci-rates">
+                  <div class="rate">
+                    <div class="rate-label">Compra:</div>
+                    <div class="rate-value">$1035.00</div>
+                  </div>
+                  <div class="rate">
+                    <div class="rate-label">Venta:</div>
+                    <div class="rate-value">$1055.00</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="currency-item">
+                <div class="ci-top">
+                  <div class="ci-name">Dólar MEP</div>
+                  <div class="ci-change down">-5.5</div>
+                </div>
+                <div class="ci-rates">
+                  <div class="rate">
+                    <div class="rate-label">Compra:</div>
+                    <div class="rate-value">$1010.25</div>
+                  </div>
+                  <div class="rate">
+                    <div class="rate-label">Venta:</div>
+                    <div class="rate-value">$1015.75</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="currency-item">
+                <div class="ci-top">
+                  <div class="ci-name">Dólar CCL</div>
+                  <div class="ci-change up">+8.0</div>
+                </div>
+                <div class="ci-rates">
+                  <div class="rate">
+                    <div class="rate-label">Compra:</div>
+                    <div class="rate-value">$1020.00</div>
+                  </div>
+                  <div class="rate">
+                    <div class="rate-label">Venta:</div>
+                    <div class="rate-value">$1025.50</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="currency-item">
+                <div class="ci-top">
+                  <div class="ci-name">Dólar Tarjeta</div>
+                  <div class="ci-change up">+4.2</div>
+                </div>
+                <div class="ci-rates">
+                  <div class="rate">
+                    <div class="rate-label">Compra:</div>
+                    <div class="rate-value">$608.80</div>
+                  </div>
+                  <div class="rate">
+                    <div class="rate-label">Venta:</div>
+                    <div class="rate-value">$608.80</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="currency-footer">
+              <a class="more-quotes" href="#">Ver más cotizaciones →</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="widget trending">
+          <div class="trending-inner">
+            <div class="trending-head">
+              <div class="trend-icon"><i class="fa-solid fa-chart-line"></i></div>
+              <h3>Temas del momento</h3>
+            </div>
+
+            <ol class="trending-items">
+              <li>
+                <div class="t-rank">1</div>
+                <div class="t-body">
+                  <a href="#">Elecciones presidenciales 2025</a>
+                  <div class="t-count">1.2k artículos</div>
+                </div>
+              </li>
+              <li>
+                <div class="t-rank">2</div>
+                <div class="t-body">
+                  <a href="#">Reforma tributaria aprobada</a>
+                  <div class="t-count">980 artículos</div>
+                </div>
+              </li>
+              <li>
+                <div class="t-rank">3</div>
+                <div class="t-body">
+                  <a href="#">Nuevo récord de turismo</a>
+                  <div class="t-count">856 artículos</div>
+                </div>
+              </li>
+              <li>
+                <div class="t-rank">4</div>
+                <div class="t-body">
+                  <a href="#">Avances en medicina digital</a>
+                  <div class="t-count">724 artículos</div>
+                </div>
+              </li>
+              <li>
+                <div class="t-rank">5</div>
+                <div class="t-body">
+                  <a href="#">Inflación mensual de octubre</a>
+                  <div class="t-count">698 artículos</div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <section class="videos-feature">
+    <div class="container">
+      <h2 class="section-title with-accent">Videos</h2>
+      <div class="videos-widget">
+        <div class="videos-track">
+          <button class="carousel-btn prev" aria-label="Anterior video"><i class="fa fa-chevron-left"></i></button>
+          <div class="videos-carousel" role="list" tabindex="0">
+            <article class="video-card" role="listitem">
+              <div class="media-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1533105076071-ec1cf0b5d4c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
+                  alt="Resumen partido" />
+                <span class="kicker">DEPORTES</span>
+                <button class="play-btn" aria-label="Reproducir video"><i class="fa fa-play"></i></button>
+                <span class="duration">4:32</span>
+              </div>
+              <div class="video-caption">Resumen: El triunfo que quedará en la historia</div>
+            </article>
+
+            <article class="video-card" role="listitem">
+              <div class="media-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1526413231988-0a3d5b7b9b89?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
+                  alt="Entrevista exclusiva" />
+                <span class="kicker">ENTREVISTA</span>
+                <button class="play-btn" aria-label="Reproducir video"><i class="fa fa-play"></i></button>
+                <span class="duration">12:08</span>
+              </div>
+              <div class="video-caption">Entrevista exclusiva con la figura política</div>
+            </article>
+
+            <article class="video-card" role="listitem">
+              <div class="media-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
+                  alt="Cobertura de turismo" />
+                <span class="kicker">TURISMO</span>
+                <button class="play-btn" aria-label="Reproducir video"><i class="fa fa-play"></i></button>
+                <span class="duration">3:15</span>
+              </div>
+              <div class="video-caption">Guía rápida: 5 lugares para visitar este fin de semana</div>
+            </article>
+
+            <article class="video-card" role="listitem">
+              <div class="media-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1509475826633-fed577a2c71b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
+                  alt="Tecnología" />
+                <span class="kicker">TECNO</span>
+                <button class="play-btn" aria-label="Reproducir video"><i class="fa fa-play"></i></button>
+                <span class="duration">7:45</span>
+              </div>
+              <div class="video-caption">Novedades: El avance tecnológico del año</div>
+            </article>
+          </div>
+          <button class="carousel-btn next" aria-label="Siguiente video"><i class="fa fa-chevron-right"></i></button>
         </div>
       </div>
-      <div class="forecast" id="forecast">
-        <!-- Pronóstico días siguientes -->
-      </div>
-    </div>
-  </div>
-
-<!-- Botones flotantes (solo móvil) -->
-<button class="info-toggle clima-btn fa-solid fa-cloud-sun" id="climaToggle"></button>
-<div class="info-panel" id="climaPanel"></div>
-
-<button class="info-toggle dolar-btn fa-solid fa-sack-dollar" id="dolarToggle"></button>
-<div class="info-panel" id="dolarPanel"></div>
-
-
-<!-- Cuerpo de la pagina -->
-<main class="main columns">
-  <!-- Destacado -->
-  <section class="hero">
-    <img src="https://media.tycsports.com/files/2025/09/14/882975/rosario-central-boca_862x485.webp?v=1" alt="Noticia destacada">
-    <div class="hero-content">
-      <h1>Título de la Noticia Principal</h1>
-      <p>Un breve resumen de la noticia principal para captar la atención del lector y motivar a leer más.</p>
-      <a href="noticia.html" class="btn">Leer más</a>
     </div>
   </section>
 
-  <!-- Grid de noticias secundarias -->
-  <section class="news-grid">
-    <article class="news-card">
-      <img src="https://media.tycsports.com/files/2025/09/14/882783/alexis-mac-allister_416x234.webp" alt="Noticia 1">
-      <div class="content">
-        <h2>Noticia Secundaria 1</h2>
-        <p>Resumen breve de la noticia secundaria 1 para dar contexto rápido al lector.</p>
-        <a href="#">Leer más →</a>
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div class="ft-col brand-col">
+        <div class="brand">
+          <a href="index.html" class="logo">
+            <img src="img/logo2.png" class="logo-footer" alt="logo-footer" />
+          </a>
+        </div>
+        <p class="brand-desc">Tu fuente confiable de noticias. Mantente informado con las últimas actualizaciones de
+          política, deportes, salud y más.</p>
+        <div class="socials">
+          <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="ft-col">
+        <h4>Secciones</h4>
+        <ul class="links">
+          <li><a href="#">Política</a></li>
+          <li><a href="#">Deportes</a></li>
+          <li><a href="#">Salud</a></li>
+          <li><a href="#">Turismo</a></li>
+          <li><a href="#">Empleos</a></li>
+          <li><a href="#">Tecnología</a></li>
+        </ul>
+      </div>
+
+      <div class="ft-col">
+        <h4>Nosotros</h4>
+        <ul class="links">
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">Contacto</a></li>
+          <li><a href="#">Publicidad</a></li>
+          <li><a href="#">Términos y condiciones</a></li>
+        </ul>
+      </div>
+
+      <div class="ft-col">
+        <h4>Síguenos</h4>
+        <ul class="links">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Youtube</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <div class="footer-links">
+          <a href="#">Privacidad</a>
+          <a href="#">Cookies</a>
+          <a href="#">Términos de uso</a>
+        </div>
+        <div class="copyright">© 2025 NotiPlus. Todos los derechos reservados.</div>
+      </div>
+    </div>
+  </footer>
+
+
+  
+  
+  <!-- Copiado: modal completo de modal_noticompleta.html (usa :target para abrir) -->
+  <div id="article-modal" class="backdrop">
+    <article class="modal" role="dialog" aria-modal="true" aria-labelledby="ttl">
+      <!-- Header -->
+      <header class="modal__head">
+        <div class="head__row">
+          <span class="badge">TECNOLOGÍA</span>
+          <div class="iconrow">
+            <button class="iconbtn iconbtn--save" aria-label="Guardar" title="Guardar">
+              <i class="fa-regular fa-bookmark"></i>
+            </button>
+            <span class="sep" aria-hidden="true"></span>
+            <button class="iconbtn iconbtn--ghost" aria-label="Compartir en Facebook" title="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button class="iconbtn iconbtn--ghost" aria-label="Compartir en X" title="X / Twitter">
+              <i class="fab fa-twitter"></i>
+            </button>
+            <button class="iconbtn iconbtn--ghost" aria-label="Copiar enlace" title="Copiar enlace">
+              <i class="fa fa-link"></i>
+            </button>
+            <span class="sep" aria-hidden="true"></span>
+            <a class="iconbtn iconbtn--ghost close-link" href="#" aria-label="Cerrar" title="Cerrar">
+              <i class="fa fa-times"></i>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scroll Wrapper -->
+      <div class="modal__scroll">
+        <!-- Imagen destacada -->
+        <figure class="hero">
+          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=2000&auto=format&fit=crop"
+            alt="Imagen destacada" />
+        </figure>
+
+        <div class="wrap">
+          <!-- Título -->
+          <h1 id="ttl" class="title">Una innovación revolucionaria promete transformar la forma en que interactuamos con
+            la tecnología</h1>
+
+          <!-- Metadatos -->
+          <div class="meta">
+            <span class="pill"><svg class="icon icon--red" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg> hace 2 horas</span>
+            <span class="pill"><svg class="icon icon--red" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg> Ana Martínez</span>
+            <span class="pill"><svg class="icon icon--red" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg> 12.345 vistas</span>
+          </div>
+
+          <!-- Cita destacada -->
+          <blockquote class="quote">
+            <p>Una innovación disruptiva combina inteligencia artificial con soluciones sustentables. Expertos reconocen
+              su potencial para posicionar a Argentina como referente regional.</p>
+          </blockquote>
+
+          <!-- Secciones del artículo -->
+          <section class="section">
+            <h2 class="section__h2"><span class="dot"></span> La Innovación</h2>
+            <p>Una startup argentina ha presentado una tecnología que promete transformar la industria. El desarrollo
+              requirió años de investigación con un equipo multidisciplinario. Los primeros prototipos superaron las
+              pruebas de concepto.</p>
+          </section>
+
+          <section class="section">
+            <h2 class="section__h2"><span class="dot"></span> Impacto en el Mercado</h2>
+            <p>Inversores nacionales e internacionales ya muestran interés. Las proyecciones indican que podría alcanzar
+              a millones de usuarios, generando empleos calificados y atrayendo talento.</p>
+          </section>
+
+          <section class="section">
+            <h2 class="section__h2"><span class="dot"></span> Visión a Futuro</h2>
+            <p>El plan es expandirse en Latinoamérica y luego escalar globalmente. Se negocia con empresas líderes del
+              sector para integraciones estratégicas.</p>
+          </section>
+
+          <!-- Botonera (decorativa) -->
+          <div class="cta">
+            <button class="btn btn--like" type="button" aria-pressed="false">
+              <i class="fa-regular fa-thumbs-up"></i>
+              <span class="btn-count">163</span>
+              <span class="hide-sm">&nbsp;Me gusta</span>
+            </button>
+            <button class="btn" type="button">
+              <i class="fa-regular fa-comment"></i>
+              <span>Comentar</span>
+            </button>
+            <button class="btn" type="button">
+              <i class="fa-solid fa-share-nodes"></i>
+              <span>Compartir</span>
+            </button>
+          </div>
+
+          <!-- Autor -->
+          <aside class="author">
+            <div class="author__eyebrow"><span class="bar"></span><span>Sobre el Autor</span></div>
+            <div class="author__row">
+              <div class="avatar" aria-hidden="true">AM</div>
+              <div>
+                <h4 style="margin:0 0 .25rem">Ana Martínez</h4>
+                <div style="color:#dc2626;margin-bottom:.5rem">Periodista de Tecnología</div>
+                <p style="color:#6b7280;margin-bottom:.75rem">Experta en innovación tecnológica y transformación
+                  digital.</p>
+                <div class="author__meta">
+                  <span style="display:inline-flex;align-items:center;gap:.4rem"><svg class="icon" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0z" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <circle cx="12" cy="10" r="3" />
+                    </svg> Córdoba, Argentina</span>
+                  <span style="display:inline-flex;align-items:center;gap:.4rem"><svg class="icon" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 4h16v16H4z" />
+                      <path d="M22 6l-10 7L2 6" />
+                    </svg> contacto@notiplus.com</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Etiquetas -->
+          <section class="tags">
+            <div class="author__eyebrow"><span class="bar"></span><span>Etiquetas</span></div>
+            <div class="tags__row">
+              <span class="tag">TECNOLOGÍA</span>
+              <span class="tag">Noticias</span>
+              <span class="tag">Actualidad</span>
+              <span class="tag">Destacado</span>
+              <span class="tag">Argentina</span>
+            </div>
+          </section>
+
+          <!-- Relacionados -->
+          <section class="related">
+            <div class="related__head"><span class="bar" style="height:24px"></span>
+              <h3>Artículos relacionados</h3>
+            </div>
+            <div class="related__grid">
+              <article class="card">
+                <div class="card__img"><img
+                    src="https://images.unsplash.com/photo-1555617981-dac3880eac6b?q=80&w=1600&auto=format&fit=crop"
+                    alt="Relacionado 1" style="width:100%;height:100%;object-fit:cover"></div>
+                <div class="card__body">
+                  <span class="card__cat">TECNOLOGÍA</span>
+                  <div class="card__title">Noticia relacionada sobre el mismo tema</div>
+                  <div class="card__desc">Más detalles sobre este importante acontecimiento.</div>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__img"><img
+                    src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1600&auto=format&fit=crop"
+                    alt="Relacionado 2" style="width:100%;height:100%;object-fit:cover"></div>
+                <div class="card__body">
+                  <span class="card__cat">TECNOLOGÍA</span>
+                  <div class="card__title">Actualización sobre los últimos acontecimientos</div>
+                  <div class="card__desc">Nuevos datos confirman la importancia del tema.</div>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__img"><img
+                    src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1600&auto=format&fit=crop"
+                    alt="Relacionado 3" style="width:100%;height:100%;object-fit:cover"></div>
+                <div class="card__body">
+                  <span class="card__cat">TECNOLOGÍA</span>
+                  <div class="card__title">Análisis completo de la situación actual</div>
+                  <div class="card__desc">Expertos analizan las implicancias de este evento.</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+        </div>
       </div>
     </article>
-
-    <article class="news-card">
-      <img src="https://media.tycsports.com/files/2025/09/14/882935/claudio-echeverri-bayer-leverkusen_416x234.webp" alt="Noticia 2">
-      <div class="content">
-        <h2>Noticia Secundaria 2</h2>
-        <p>Resumen breve de la noticia secundaria 2 para dar contexto rápido al lector.</p>
-        <a href="#">Leer más →</a>
-      </div>
-    </article>
-
-    <article class="news-card">
-      <img src="https://media.tycsports.com/files/2025/09/14/882778/franco-colapinto-piloto-de-alpine_416x234.webp?v=1" alt="Noticia 3">
-      <div class="content">
-        <h2>Noticia Secundaria 3</h2>
-        <p>Resumen breve de la noticia secundaria 3 para dar contexto rápido al lector.</p>
-        <a href="#">Leer más →</a>
-      </div>
-    </article>
-  </section>
-
-</main>
-
-<script src="script.js"></script>
-<script src="clima.js"></script>
-
+  </div>
+  <script src="script.js" defer></script>
 </body>
 </html>

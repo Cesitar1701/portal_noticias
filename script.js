@@ -1,140 +1,77 @@
-// Inicio JS Barra de busqueda
-const searchContainer = document.querySelector('.search-container');
-const searchBtn = document.querySelector('.btn');
-const searchInput = document.querySelector('.search-container input');
-const menuContainer = document.querySelector('.menu-container');
-const menuBtn = document.querySelector('.menu-btn');
-const climaToggle = document.getElementById("climaToggle");
-const climaPanel = document.getElementById("climaPanel");
-const dolarToggle = document.getElementById("dolarToggle");
-const dolarPanel = document.getElementById("dolarPanel");
+// ===== Scripts migrados desde index.html =====
 
-// Toggle al hacer click en el botón
-searchBtn.addEventListener('click', (e) => {
-  e.stopPropagation(); // evita que el click se propague al body
-  searchContainer.classList.toggle('active');
-  if (searchContainer.classList.contains('active')) {
-    searchInput.focus(); // enfoca el input al abrir
-  }
-});
+// --- Script 1 ---
+// City dropdown behavior for weather widget
+    (function () {
+      const btn = document.getElementById('city-btn');
+      const menu = document.getElementById('city-menu');
+      if (!btn || !menu) return;
 
-// Cierra si se hace click fuera
-document.addEventListener('click', (e) => {
-  if (!searchContainer.contains(e.target)) {
-    searchContainer.classList.remove('active');
-  }
-});;
+      function openMenu() {
+        menu.setAttribute('aria-hidden', 'false');
+        menu.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+      function closeMenu() {
+        menu.setAttribute('aria-hidden', 'true');
+        menu.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
 
-// Toggle al hacer click en el ícono
-menuBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  menuContainer.classList.toggle('active');
-});
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const isOpen = menu.getAttribute('aria-hidden') === 'false';
+        if (isOpen) closeMenu(); else openMenu();
+      });
 
-// Cierra el menú si hacés click fuera
-document.addEventListener('click', (e) => {
-  if (!menuContainer.contains(e.target)) {
-    menuContainer.classList.remove('active');
-  }
-});
-// Fin JS Barra de busqueda
+      // click outside to close
+      document.addEventListener('click', function (e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu();
+      });
 
-// -------------------------------------------------------------------------
+      // keyboard: Esc closes
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 
-// Inicio JS Dolar Cotizaciones
-async function loadDolaresInline() {
-  try {
-    const res = await fetch("https://dolarapi.com/v1/dolares");
-    const data = await res.json();
+      // handle selection
+      menu.querySelectorAll('li[role="menuitem"]').forEach(li => {
+        li.addEventListener('click', function (e) {
+          e.stopPropagation();
+          menu.querySelectorAll('li').forEach(x => x.classList.remove('active'));
+          li.classList.add('active');
+          // update button label (keep icon)
+          const icon = btn.querySelector('i');
+          btn.firstChild.textContent = li.textContent;
+          if (icon) btn.appendChild(icon);
+          closeMenu();
+          // future: trigger a weather data refresh for selected city
+        });
+      });
+    })();
 
-    // Mapear nombres de la API a nombres amigables
-    const nombres = {
-      oficial: "Oficial",
-      blue: "Blue",
-      tarjeta: "Tarjeta",
-      bolsa: "MEP" 
-    };
+// --- Script 2 ---
+// Videos carousel: prev/next + keyboard navigation
+    (function () {
+      const carousel = document.querySelector('.videos-carousel');
+      const prevBtn = document.querySelector('.carousel-btn.prev');
+      const nextBtn = document.querySelector('.carousel-btn.next');
+      if (!carousel) return;
 
-    // Solo mostrar estos tipos
-    const tipos = ["oficial", "blue", "tarjeta", "bolsa"];
+      function scrollAmount(dir) {
+        const card = carousel.querySelector('.video-card');
+        if (!card) return carousel.clientWidth * 0.8 * dir;
+        const gap = parseInt(getComputedStyle(carousel).gap) || 18;
+        return (card.offsetWidth + gap) * dir;
+      }
 
-    const container = document.getElementById("dolarInline");
-    container.innerHTML = "";
+      if (prevBtn) { prevBtn.addEventListener('click', () => { carousel.scrollBy({ left: -scrollAmount(1), behavior: 'smooth' }); }); }
+      if (nextBtn) { nextBtn.addEventListener('click', () => { carousel.scrollBy({ left: scrollAmount(1), behavior: 'smooth' }); }); }
 
-    const textos = data
-      .filter(d => tipos.includes(d.casa.toLowerCase()))
-      .map(d => `Dólar ${nombres[d.casa.toLowerCase()]} <b>$${d.venta.toFixed(2)}</b>`);
+      // keyboard navigation when carousel focused
+      carousel.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); carousel.scrollBy({ left: scrollAmount(1), behavior: 'smooth' }); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); carousel.scrollBy({ left: -scrollAmount(1), behavior: 'smooth' }); }
+      });
 
-    container.innerHTML = textos.join(" - ");
-  } catch (err) {
-    console.error("Error al obtener cotizaciones:", err);
-  }
-}
-
-// Ejecutar al cargar
-loadDolaresInline();
-
-// Actualizar cada 5 minutos
-setInterval(loadDolaresInline, 300000);
-
-// Fin JS Dolar Cotizaciones
-
-
-// BOTONES
-// Clima toggle
-climaToggle.addEventListener("click", () => {
-  const widget = document.getElementById("weatherWidget");
-  climaPanel.appendChild(widget); // mueve el widget, no lo clona
-  climaPanel.style.display = climaPanel.style.display === "block" ? "none" : "block";
-});
-// Dólar toggle
-dolarToggle.addEventListener("click", () => {
-  dolarPanel.innerHTML = document.getElementById("dolarInline").outerHTML;
-  dolarPanel.style.display = dolarPanel.style.display === "block" ? "none" : "block";
-});
-
-// Cerrar al hacer click fuera
-document.addEventListener("click", (e) => {
-  if (!climaPanel.contains(e.target) && e.target !== climaToggle) {
-    climaPanel.style.display = "none";
-  }
-  if (!dolarPanel.contains(e.target) && e.target !== dolarToggle) {
-    dolarPanel.style.display = "none";
-  }
-});
-//FIN BOTONES
-
-
-//var swiper = new Swiper('.swiper-container', {
-	//navigation: {
-	  //nextEl: '.swiper-button-next',
-	  //prevEl: '.swiper-button-prev'
-	//},
-	//slidesPerView: 1,
-	//spaceBetween: 10,
-	// init: false,
-	//pagination: {
-	  //el: '.swiper-pagination',
-	  //clickable: true,
-	//},
-
-  
-	//breakpoints: {
-	  //620: {
-		//slidesPerView: 1,
-		//spaceBetween: 20,
-	  //},
-	  //680: {
-		//slidesPerView: 2,
-		//spaceBetween: 40,
-	  //},
-	  //920: {
-		//slidesPerView: 3,
-		//spaceBetween: 40,
-	  //},
-	  //1240: {
-		//slidesPerView: 4,
-		//spaceBetween: 50,
-	  //},
-	//} 
-    //});
+      // make carousel focusable and hint
+      carousel.setAttribute('tabindex', '0');
+    })();
