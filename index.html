@@ -496,7 +496,7 @@
 
   
   
-  <!-- Copiado: modal completo de modal_noticompleta.html (usa :target para abrir) -->
+  <!--modal completo de modal_noticompleta.html (usa :target para abrir) -->
   <div id="article-modal" class="backdrop">
     <article class="modal" role="dialog" aria-modal="true" aria-labelledby="ttl">
       <!-- Header -->
@@ -562,26 +562,8 @@
             <p>Una innovación disruptiva combina inteligencia artificial con soluciones sustentables. Expertos reconocen
               su potencial para posicionar a Argentina como referente regional.</p>
           </blockquote>
-
-          <!-- Secciones del artículo -->
-          <section class="section">
-            <h2 class="section__h2"><span class="dot"></span> La Innovación</h2>
-            <p>Una startup argentina ha presentado una tecnología que promete transformar la industria. El desarrollo
-              requirió años de investigación con un equipo multidisciplinario. Los primeros prototipos superaron las
-              pruebas de concepto.</p>
-          </section>
-
-          <section class="section">
-            <h2 class="section__h2"><span class="dot"></span> Impacto en el Mercado</h2>
-            <p>Inversores nacionales e internacionales ya muestran interés. Las proyecciones indican que podría alcanzar
-              a millones de usuarios, generando empleos calificados y atrayendo talento.</p>
-          </section>
-
-          <section class="section">
-            <h2 class="section__h2"><span class="dot"></span> Visión a Futuro</h2>
-            <p>El plan es expandirse en Latinoamérica y luego escalar globalmente. Se negocia con empresas líderes del
-              sector para integraciones estratégicas.</p>
-          </section>
+          <!-- Cuerpo largo dinámico -->
+          <div id="article-body" class="article-body" aria-live="polite"></div>
 
           <!-- Botonera (decorativa) -->
           <div class="cta">
@@ -613,8 +595,8 @@
                 <div class="author__meta">
                   <span style="display:inline-flex;align-items:center;gap:.4rem"><svg class="icon" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0z" />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <circle cx="12" cy="10" r="3" />
+                      <path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
                     </svg> Córdoba, Argentina</span>
                   <span style="display:inline-flex;align-items:center;gap:.4rem"><svg class="icon" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -681,6 +663,6 @@
       </div>
     </article>
   </div>
-  <script src="script.js" defer></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
