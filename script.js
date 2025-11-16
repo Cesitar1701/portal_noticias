@@ -721,7 +721,8 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 
     // ADMIN 
     if (userOrEmail === 'Admin' && password === 'admin') {
-      window.location.href = 'admin.html';
+      window.open('admin.html', '_blank');
+      closeAuth();
       return;
     }
 

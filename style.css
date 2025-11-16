@@ -2201,9 +2201,11 @@ a {
   font-size: 0.9rem;
   font-weight: 600;
   color: #111827;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;        
+  overflow: hidden;            
+  text-overflow: ellipsis;     
+  display: block;
+  max-width: 100%;          
 }
 
 .saved-item-title-btn {
@@ -2213,10 +2215,12 @@ a {
   margin: 0;
   text-align: left;
   cursor: pointer;
+  max-width: 100%;
 }
 
 .saved-item-title-btn:hover .saved-item-title {
   text-decoration: underline;
+  max-width: 100%;
 }
 
 .saved-item-meta {
