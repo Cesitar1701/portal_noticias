@@ -1,163 +1,315 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <title>Admin Noticias</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    :root{ --bg:#0b0d12; --card:#12151c; --muted:#7a8599; --txt:#e8eefc; --acc:#4fc3f7; }
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--txt)}
-    header{padding:16px 20px;border-bottom:1px solid #1c2230;display:flex;gap:12px;align-items:center}
-    header h1{font-size:18px;margin:0}
-    .wrap{display:grid;grid-template-columns:380px 1fr;gap:20px;padding:20px}
-    .card{background:var(--card);border:1px solid #1c2230;border-radius:14px;padding:16px}
-    .card h2{margin:0 0 10px 0;font-size:16px}
-    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
-    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #2a3245;background:#0f1219;color:var(--txt)}
-    textarea{min-height:80px;resize:vertical}
-    .grid2{display:flex;}
-    .row{display:flex;gap:10px}
-    .btn{padding:10px 14px;border-radius:10px;border:1px solid #2a3245;background:#151a24;color:var(--txt);cursor:pointer}
-    .btn.primary{background:var(--acc);border-color:transparent;color:#071018;font-weight:600}
-    .btn.danger{background:#ff55551a;border-color:#ff5555;color:#ffb0b0}
-    .btn[disabled]{opacity:.6;cursor:not-allowed}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border-bottom:1px solid #1c2230;font-size:13px;vertical-align:top}
-    th{color:var(--muted);text-align:left}
-    tr:hover{background:#0f1218}
-    .muted{color:var(--muted)}
-    .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#283042;color:#cfe4ff;font-size:12px}
-    .hint{font-size:12px;color:var(--muted)}
-    .preview{display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;margin-top:8px}
-    .preview img{width:160px;height:90px;object-fit:cover;border-radius:8px;border:1px solid #223}
-    .righthead{margin-left:auto;display:flex;gap:8px}
-    @media (max-width:900px){.wrap{grid-template-columns:1fr}}
+    :root {
+      --bg: #0b0d12;
+      --card: #12151c;
+      --muted: #7a8599;
+      --txt: #e8eefc;
+      --acc: #4fc3f7;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--txt)
+    }
+
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #1c2230;
+      display: flex;
+      gap: 12px;
+      align-items: center
+    }
+
+    header h1 {
+      font-size: 18px;
+      margin: 0
+    }
+
+    .wrap {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px;
+      padding: 20px
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid #1c2230;
+      border-radius: 14px;
+      padding: 16px
+    }
+
+    .card h2 {
+      margin: 0 0 10px 0;
+      font-size: 16px
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 10px 0 6px
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #2a3245;
+      background: #0f1219;
+      color: var(--txt)
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical
+    }
+
+    .grid2 {
+      display: flex;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px
+    }
+
+    .btn {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #2a3245;
+      background: #151a24;
+      color: var(--txt);
+      cursor: pointer
+    }
+
+    .btn.primary {
+      background: var(--acc);
+      border-color: transparent;
+      color: #071018;
+      font-weight: 600
+    }
+
+    .btn.danger {
+      background: #ff55551a;
+      border-color: #ff5555;
+      color: #ffb0b0
+    }
+
+    .btn[disabled] {
+      opacity: .6;
+      cursor: not-allowed
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #1c2230;
+      font-size: 13px;
+      vertical-align: top
+    }
+
+    th {
+      color: var(--muted);
+      text-align: left
+    }
+
+    tr:hover {
+      background: #0f1218
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #283042;
+      color: #cfe4ff;
+      font-size: 12px
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .preview {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-top: 8px
+    }
+
+    .preview img {
+      width: 160px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #223
+    }
+
+    .righthead {
+      margin-left: auto;
+      display: flex;
+      gap: 8px
+    }
+
+    @media (max-width:900px) {
+      .wrap {
+        grid-template-columns: 1fr
+      }
+    }
   </style>
 </head>
+
 <body>
-<header>
-  <h1>Admin Noticias</h1>
-  <div class="righthead">
-    <button id="btnReload" class="btn">Recargar</button>
+  <header>
+    <h1>Admin Noticias</h1>
+    <div class="righthead">
+      <button id="btnReload" class="btn">Recargar</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Formulario -->
+    <section class="card">
+      <h2>Editor</h2>
+      <div class="hint">Completa y guarda. El <b>Slug</b> se genera solo desde el Título (podés editarlo).</div>
+
+      <div class="row">
+        <div class="grid2" style="flex:1">
+          <div>
+            <label>Título</label>
+            <input id="fTitulo" placeholder="Título de la noticia">
+          </div>
+          <div>
+            <label>Slug</label>
+            <input id="fSlug" placeholder="independiente-le-gano..." readonly />
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>Categoría</label>
+          <select id="fCategoria">
+            <option>Politica</option>
+            <option>Salud</option>
+            <option>Policiales</option>
+            <option>Turismo</option>
+            <option>Deportes</option>
+            <option>Empleos</option>
+            <option>Tecnología</option>
+            <option>Internacional</option>
+          </select>
+        </div>
+        <div>
+          <label>Fecha publicada (ISO)</label>
+          <input id="fFecha" placeholder="2025-11-12T21:00:00Z">
+        </div>
+      </div>
+
+      <div>
+        <label>Parrafo (bajada)</label>
+        <textarea id="fParrafo" placeholder="Resumen breve…"></textarea>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>Imagen principal (Img URL)</label>
+          <input id="fImg" placeholder="https://.../portada.jpg">
+          <div class="preview">
+            <img id="imgPrev" src="" alt="">
+            <div class="hint">Usada en la card y como hero del modal.</div>
+          </div>
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid #1c2230;margin:14px 0">
+
+      <h2>Body (hasta 3 párrafos + 1 media intermedia)</h2>
+      <div>
+        <label>Párrafo 1</label>
+        <textarea id="fP1" placeholder="Primer párrafo…"></textarea>
+      </div>
+      <div class="grid2">
+        <div>
+          <label>Media URL (YouTube/imagen/video)</label>
+          <input id="fMediaUrl" placeholder="https://youtu.be/xxxx  o  https://.../foto.jpg  o  https://.../clip.mp4">
+        </div>
+      </div>
+      <div>
+        <label>Párrafo 2</label>
+        <textarea id="fP2" placeholder="Segundo párrafo…"></textarea>
+      </div>
+      <div>
+        <label>Párrafo 3</label>
+        <textarea id="fP3" placeholder="Tercer párrafo…"></textarea>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <button id="btnNew" class="btn">Nuevo</button>
+        <button id="btnCreate" class="btn primary">Crear</button>
+        <button id="btnUpdate" class="btn" disabled>Actualizar</button>
+        <button id="btnDelete" class="btn danger" disabled>Eliminar</button>
+        <div id="status" class="hint" style="margin-left:auto"></div>
+      </div>
+    </section>
+
+    <!-- Tabla -->
+    <section class="card">
+      <h2>Listado</h2>
+      <div class="row" style="margin-bottom:8px">
+        <input id="q" placeholder="Buscar por título/slug…" style="flex:1">
+        <button id="btnSearch" class="btn">Buscar</button>
+      </div>
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Fecha</th>
+            <th>Slug</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="row" style="margin-top:8px">
+        <button id="prev" class="btn">« Anterior</button>
+        <div id="pageinfo" class="hint" style="margin:0 8px"></div>
+        <button id="next" class="btn">Siguiente »</button>
+      </div>
+    </section>
   </div>
-</header>
 
-<div class="wrap">
-  <!-- Formulario -->
-  <section class="card">
-    <h2>Editor</h2>
-    <div class="hint">Completa y guarda. El <b>Slug</b> se genera solo desde el Título (podés editarlo).</div>
-
-    <div class="row">
-      <div class="grid2" style="flex:1">
-        <div>
-          <label>Título</label>
-          <input id="fTitulo" placeholder="Título de la noticia">
-        </div>
-        <div>
-          <label>Slug</label>
-          <input id="fSlug" placeholder="independiente-le-gano..." readonly />
-        </div>
-      </div>
-    </div>
-
-    <div class="grid2">
-      <div>
-        <label>Categoría</label>
-        <select id="fCategoria">
-          <option>Politica</option>
-          <option>Salud</option>
-          <option>Policiales</option>
-          <option>Turismo</option>
-          <option>Deportes</option>
-          <option>Empleos</option>
-          <option>Tecnología</option>
-          <option>Internacional</option>
-        </select>
-      </div>
-      <div>
-        <label>Fecha publicada (ISO)</label>
-        <input id="fFecha" placeholder="2025-11-12T21:00:00Z">
-      </div>
-    </div>
-
-    <div>
-      <label>Parrafo (bajada)</label>
-      <textarea id="fParrafo" placeholder="Resumen breve…"></textarea>
-    </div>
-
-    <div class="grid2">
-      <div>
-        <label>Imagen principal (Img URL)</label>
-        <input id="fImg" placeholder="https://.../portada.jpg">
-        <div class="preview">
-          <img id="imgPrev" src="" alt="">
-          <div class="hint">Usada en la card y como hero del modal.</div>
-        </div>
-      </div>
-    </div>
-
-    <hr style="border:none;border-top:1px solid #1c2230;margin:14px 0">
-
-    <h2>Body (hasta 3 párrafos + 1 media intermedia)</h2>
-    <div>
-      <label>Párrafo 1</label>
-      <textarea id="fP1" placeholder="Primer párrafo…"></textarea>
-    </div>
-    <div class="grid2">
-      <div>
-        <label>Media URL (YouTube/imagen/video)</label>
-        <input id="fMediaUrl" placeholder="https://youtu.be/xxxx  o  https://.../foto.jpg  o  https://.../clip.mp4">
-      </div>
-    </div>
-    <div>
-      <label>Párrafo 2</label>
-      <textarea id="fP2" placeholder="Segundo párrafo…"></textarea>
-    </div>
-    <div>
-      <label>Párrafo 3</label>
-      <textarea id="fP3" placeholder="Tercer párrafo…"></textarea>
-    </div>
-
-    <div class="row" style="margin-top:12px">
-      <button id="btnNew" class="btn">Nuevo</button>
-      <button id="btnCreate" class="btn primary">Crear</button>
-      <button id="btnUpdate" class="btn" disabled>Actualizar</button>
-      <button id="btnDelete" class="btn danger" disabled>Eliminar</button>
-      <div id="status" class="hint" style="margin-left:auto"></div>
-    </div>
-  </section>
-
-  <!-- Tabla -->
-  <section class="card">
-    <h2>Listado</h2>
-    <div class="row" style="margin-bottom:8px">
-      <input id="q" placeholder="Buscar por título/slug…" style="flex:1">
-      <button id="btnSearch" class="btn">Buscar</button>
-    </div>
-    <table id="tbl">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Categoría</th>
-          <th>Fecha</th>
-          <th>Slug</th>
-          <th>Estado</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <div class="row" style="margin-top:8px">
-      <button id="prev" class="btn">« Anterior</button>
-      <div id="pageinfo" class="hint" style="margin:0 8px"></div>
-      <button id="next" class="btn">Siguiente »</button>
-    </div>
-  </section>
-</div>
-
-<script type="module" src="admin.js"></script>
+  <script type="module" src="admin.js"></script>
 
 
 </body>
+
 </html>

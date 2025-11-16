@@ -1,46 +1,44 @@
 import { AIRTABLE_TOKEN, BASE_ID, TABLE_NAME } from './env.js';
-/* ===========================
-   CONFIG AIRTABLE (Front)
-   =========================== */
-// ⚠️ Estás usando PAT en el front por decisión propia.
-const airtabletoken = AIRTABLE_TOKEN;   // TU PAT (ideal: solo lectura)
-const baseId        = BASE_ID;              // ID de tu base
-const tableName     = TABLE_NAME;                       // Nombre exacto de la tabla
-const viewName      = "Grid view";                      // O dejalo "" si no querés filtrar por vista
-
+const airtabletoken = AIRTABLE_TOKEN;
+const baseId = BASE_ID;
+const tableName = TABLE_NAME;
+const viewName = "Grid view";
 /* ===========================
    UTILIDADES
    =========================== */
-function timeAgo(dateStr){
-  if(!dateStr) return '';
-  const n=new Date(), d=new Date(dateStr);
-  const diff=Math.max(0,n-d);
-  const mins=Math.floor(diff/60000);
-  if(mins<60) return `hace ${mins} min`;
-  const hrs=Math.floor(mins/60);
-  if(hrs<24) return `hace ${hrs} h`;
-  const days=Math.floor(hrs/24);
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const n = new Date(), d = new Date(dateStr);
+  const diff = Math.max(0, n - d);
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `hace ${mins} min`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `hace ${hrs} h`;
+  const days = Math.floor(hrs / 24);
   return `hace ${days} d`;
 }
-function esc(s){
-  return (s||'').toString()
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#39;');
+function esc(s) {
+  return (s || '').toString()
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
-const norm = s => (s||'').toString().trim().toLowerCase()
-  .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const norm = s => (s || '').toString().trim().toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 /* ===========================
-   RENDER DE UNA CARD (markup igual al tuyo)
+   RENDER DE UNA CARD 
    =========================== */
-function renderCardHTML(rec){
-  const title=esc(rec.title), cat=esc(rec.category), excerpt=esc(rec.excerpt);
-  const img=esc(rec.hero), meta=timeAgo(rec.publishedAt);
+function renderCardHTML(rec) {
+  const title = esc(rec.title), cat = esc(rec.category), excerpt = esc(rec.excerpt);
+  const img = esc(rec.hero), meta = timeAgo(rec.publishedAt);
   return `
-<article class="card" data-slug="${esc(rec.slug)}">
+<article class="card" data-slug="${esc(rec.slug)}"data-title="${title}"
+  data-category="${cat}"
+  data-meta="${esc(meta)}"
+  data-img="${img}">
   <img class="cover" src="${img}" alt="${title}">
   <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
   <div class="body">
@@ -128,8 +126,8 @@ function renderCardHTML(rec){
   // Exportamos fillModal para usarlo desde la parte async
   window.__fillModal = fillModal;
 
-  // Handler “simple” por si se usa antes de que cargue Airtable (luego será sobreescrito)
-  window.__handleReadMoreFromArticle = function(articleEl) {
+  // Handler “simple” por si se usa antes de que cargue Airtable 
+  window.__handleReadMoreFromArticle = function (articleEl) {
     const data = extractFromCard(articleEl);
     fillModal(data);
     openModal();
@@ -226,7 +224,7 @@ function renderCardHTML(rec){
    =========================== */
 
 // Mensaje de “cargando” bajo tabs + limpiar cards hardcodeadas
-(function showLoading(){
+(function showLoading() {
   // 1) Últimas noticias: vaciar lo hardcodeado del HTML
   const latestContainer = document.querySelector('.col-main .cards-3');
   if (latestContainer) latestContainer.innerHTML = '';
@@ -246,7 +244,7 @@ function renderCardHTML(rec){
   }
 })();
 
-// Descarga todas las páginas (100 en 100)
+// Descarga todas las páginas
 async function fetchAirtableAll() {
   const baseURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
   let url = `${baseURL}?pageSize=100${viewName ? `&view=${encodeURIComponent(viewName)}` : ''}`;
@@ -269,8 +267,8 @@ async function fetchAirtableAll() {
 }
 
 // Carga, separa las 3 últimas y alimenta Tabs con el resto
-(async function loadFromAirtableREST(){
-  try{
+(async function loadFromAirtableREST() {
+  try {
     const records = await fetchAirtableAll();
 
     // Mapeo de campos según tu tabla: Titulo, Categoria, Parrafo, Img (URL), Fecha_publicada, Slug :contentReference[oaicite:0]{index=0}
@@ -281,7 +279,7 @@ async function fetchAirtableAll() {
         category: (f.Categoria || 'NOTICIAS').toString(),
         excerpt: (f.Parrafo || '').trim(),
         body: (f.Parrafo || '').trim(),
-        hero: (f.Img || '').toString(), // <- ahora Img es URL de texto
+        hero: (f.Img || '').toString(),
         publishedAt: (f.Fecha_publicada || '').toString(),
         slug: (f.Slug || '').toString(),
       };
@@ -293,7 +291,7 @@ async function fetchAirtableAll() {
 
     // 2) Separar últimas 3 y resto
     const latest3 = mapped.slice(0, 3);
-    const rest    = mapped.slice(3);
+    const rest = mapped.slice(3);
 
     // 3) Pintar “Últimas noticias”
     const latestContainer = document.querySelector('.col-main .cards-3');
@@ -323,6 +321,9 @@ async function fetchAirtableAll() {
     }));
     if (window.__setTabsPool) {
       window.__setTabsPool(poolFromAPI);
+    }
+    if (window.__updateCardBookmarks) {
+      window.__updateCardBookmarks();
     }
 
   } catch (err) {
@@ -410,7 +411,7 @@ function buildArticleBody({ p1, p2, p3, mediaUrl, mediaAlt }) {
     `);
   };
 
-  // Orden: P1 → Media → P2 → P3 (sin huecos)
+  // Orden: P1 → Media → P2 → P3 
   addP(p1);
   addMedia(mediaUrl, mediaAlt);
   addP(p2);
@@ -419,7 +420,7 @@ function buildArticleBody({ p1, p2, p3, mediaUrl, mediaAlt }) {
   return parts.join('\n');
 }
 
-// Obtiene UNA noticia desde Airtable usando el Slug (según tu tabla actual) :contentReference[oaicite:1]{index=1}
+// Obtiene UNA noticia desde Airtable usando el Slug :contentReference[oaicite:1]{index=1}
 async function fetchOneBySlug(slug) {
   const baseURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
   const params = new URLSearchParams({
@@ -450,13 +451,13 @@ async function fetchOneBySlug(slug) {
     p1: (f.P1 || '').toString(),
     p2: (f.P2 || '').toString(),
     p3: (f.P3 || '').toString(),
-    mediaUrl: (f.Media || '').toString(),        // 👈 UNA sola columna Media (URL)
+    mediaUrl: (f.Media || '').toString(),        //UNA sola columna Media
     mediaAlt: (f.Titulo || '').toString()
   };
 }
 
 // Handler final del modal (usa fetchOneBySlug + buildArticleBody)
-window.__handleReadMoreFromArticle = async function(articleEl) {
+window.__handleReadMoreFromArticle = async function (articleEl) {
   const img = articleEl.querySelector('img.cover');
   const kicker = articleEl.querySelector('.kicker');
   const title = articleEl.querySelector('h3');
@@ -575,7 +576,7 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
   function clearStoredUser() {
     try {
       localStorage.removeItem(AUTH_STORAGE_KEY);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // -------- UI: logueado / deslogueado --------
@@ -669,7 +670,7 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
   });
 
   // -------- Airtable: registrar usuarios --------
-  const airtableUsersTable = 'Usuarios'; 
+  const airtableUsersTable = 'Usuarios';
   const airtableUsersURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(airtableUsersTable)}`;
   const usersHeaders = {
     'Authorization': `Bearer ${airtabletoken}`,
@@ -683,7 +684,7 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
           fields: {
             Nombre: name || '',
             Email: email,
-            Password: password, 
+            Password: password,
             Rol: 'usuario',
           },
         },
@@ -734,6 +735,10 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
       storeUser(user);
       applyLoggedInUI(user);
       closeAuth();
+
+      if (window.__updateCardBookmarks) {
+        window.__updateCardBookmarks();
+      }
     } catch (err) {
       console.error(err);
       authMsg.textContent = 'No se pudo registrar el usuario en Airtable.';
@@ -747,18 +752,13 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
       e.preventDefault();
       clearStoredUser();
       applyLoggedOutUI();
+
+      if (window.__updateCardBookmarks) {
+        window.__updateCardBookmarks();
+      }
     });
   }
 
-  // -------- Menú: Guardados (de momento solo placeholder) --------
-  if (btnSaved) {
-    btnSaved.addEventListener('click', (e) => {
-      e.preventDefault();
-      userMenu.classList.remove('open');
-      // Después lo conectamos con tus noticias guardadas
-      alert('Después conectamos este botón con tus noticias guardadas 😉');
-    });
-  }
 
   // Cerrar el menú al hacer click fuera
   document.addEventListener('click', (e) => {
@@ -785,4 +785,296 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
   if (nameField) {
     nameField.style.display = 'none';
   }
+})();
+
+/* ===========================
+   Guardados (bookmarks por usuario)
+   =========================== */
+
+(function () {
+  const AUTH_KEY = 'noticias_auth_user';       // donde se guarda el usuario logueado
+  const SAVED_KEY = 'noticias_saved_by_user';  // mapa email -> array de noticias
+
+  const btnSaved = document.getElementById('user-menu-saved');
+  const savedBackdrop = document.getElementById('saved-panel');
+  const savedListEl = document.getElementById('saved-list');
+  const savedCloseBtn = savedBackdrop ? savedBackdrop.querySelector('.saved-close') : null;
+  const loginToastEl = document.getElementById('login-toast');
+
+  if (!savedBackdrop || !savedListEl) return;
+
+  let toastTimeoutId = null;
+
+  // -------- utils de storage --------
+  function getCurrentUser() {
+    try {
+      const raw = localStorage.getItem(AUTH_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getUserKey() {
+    const u = getCurrentUser();
+    const email = (u && u.email) || '';
+    return email.trim().toLowerCase() || null;
+  }
+
+  function loadSavedMap() {
+    try {
+      const raw = localStorage.getItem(SAVED_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveSavedMap(map) {
+    try {
+      localStorage.setItem(SAVED_KEY, JSON.stringify(map));
+    } catch { }
+  }
+
+  function getSavedForCurrentUser() {
+    const key = getUserKey();
+    if (!key) return [];
+    const map = loadSavedMap();
+    return Array.isArray(map[key]) ? map[key] : [];
+  }
+
+  function setSavedForCurrentUser(list) {
+    const key = getUserKey();
+    if (!key) return;
+    const map = loadSavedMap();
+    map[key] = list;
+    saveSavedMap(map);
+  }
+
+  // -------- UI helpers --------
+  function showLoginToast() {
+    if (!loginToastEl) {
+      alert('Tenés que iniciar sesión para poder guardar noticias.');
+      return;
+    }
+    loginToastEl.textContent = 'Iniciá sesión para poder guardar noticias.';
+    loginToastEl.classList.add('show');
+    clearTimeout(toastTimeoutId);
+    toastTimeoutId = setTimeout(() => {
+      loginToastEl.classList.remove('show');
+    }, 2600);
+  }
+
+  function setBookmarkButtonState(btn, isSaved) {
+    if (!btn) return;
+    btn.classList.toggle('is-saved', isSaved);
+    const icon = btn.querySelector('i');
+    if (icon) {
+      icon.classList.toggle('fa-regular', !isSaved);
+      icon.classList.toggle('fa-solid', isSaved);
+    }
+  }
+
+  function updateCardBookmarksUI() {
+    const saved = getSavedForCurrentUser();
+    const savedSet = new Set(saved.map(x => x.slug));
+
+    document.querySelectorAll('.card-bookmark').forEach((btn) => {
+      const card = btn.closest('article.card');
+      if (!card) return;
+      const slug = card.getAttribute('data-slug') || '';
+      if (!slug) return;
+      const isSaved = savedSet.has(slug);
+      setBookmarkButtonState(btn, isSaved);
+    });
+  }
+
+  // -------- lógica de toggle desde la card --------
+  function toggleSaveFromCard(cardEl) {
+    const userKey = getUserKey();
+    if (!userKey) {
+      showLoginToast();
+      return;
+    }
+
+    const slug = cardEl.getAttribute('data-slug') || '';
+    if (!slug) return;
+
+    const title = cardEl.getAttribute('data-title') || (cardEl.querySelector('h3')?.textContent || '').trim();
+    const category = cardEl.getAttribute('data-category') || (cardEl.querySelector('.kicker')?.textContent || '').trim();
+    const meta = cardEl.getAttribute('data-meta') || (cardEl.querySelector('.card-meta')?.textContent || '').trim();
+    const img = cardEl.getAttribute('data-img') || (cardEl.querySelector('img.cover')?.src || '');
+
+    const map = loadSavedMap();
+    const list = Array.isArray(map[userKey]) ? map[userKey] : [];
+
+    const idx = list.findIndex(x => x.slug === slug);
+    let savedNow = false;
+
+    if (idx === -1) {
+      list.push({
+        slug,
+        title,
+        category,
+        meta,
+        img,
+        savedAt: Date.now()
+      });
+      savedNow = true;
+    } else {
+      list.splice(idx, 1);
+      savedNow = false;
+    }
+
+    map[userKey] = list;
+    saveSavedMap(map);
+    updateCardBookmarksUI();
+
+    if (loginToastEl) {
+      loginToastEl.textContent = savedNow ? 'Noticia guardada.' : 'Noticia eliminada de guardados.';
+      loginToastEl.classList.add('show');
+      clearTimeout(toastTimeoutId);
+      toastTimeoutId = setTimeout(() => {
+        loginToastEl.classList.remove('show');
+      }, 2000);
+    }
+  }
+
+  // -------- render del panel de guardados --------
+  function renderSavedList() {
+    const saved = getSavedForCurrentUser();
+    if (!saved.length) {
+      savedListEl.innerHTML = '<p class="saved-empty">Todavía no guardaste noticias.</p>';
+      return;
+    }
+
+    savedListEl.innerHTML = saved.map(item => `
+      <div class="saved-item" data-slug="${item.slug}">
+        <div class="saved-item-main">
+          <button class="saved-item-title-btn" type="button">
+            <span class="saved-item-title">${esc(item.title || '')}</span>
+          </button>
+          <span class="saved-item-meta">${esc(item.category || '')}${item.meta ? ' · ' + esc(item.meta) : ''}</span>
+        </div>
+        <button class="saved-item-remove" type="button" aria-label="Eliminar noticia guardada">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function openSavedPanel() {
+    if (!getUserKey()) {
+      showLoginToast();
+      return;
+    }
+    renderSavedList();
+    savedBackdrop.classList.add('open');
+    document.body.classList.add('no-scroll');
+  }
+
+  function closeSavedPanel() {
+    savedBackdrop.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  }
+
+  // -------- eventos --------
+
+  // Click en bookmark de una card
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.card-bookmark');
+    if (!btn) return;
+    const card = btn.closest('article.card');
+    if (!card) return;
+    e.preventDefault();
+    toggleSaveFromCard(card);
+  });
+
+  // Botón "Guardados" del menú de usuario
+  if (btnSaved) {
+    btnSaved.addEventListener('click', (e) => {
+      e.preventDefault();
+      openSavedPanel();
+    });
+  }
+
+  // Cerrar panel
+  if (savedCloseBtn) {
+    savedCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeSavedPanel();
+    });
+  }
+
+  savedBackdrop.addEventListener('click', (e) => {
+    if (e.target === savedBackdrop) {
+      closeSavedPanel();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && savedBackdrop.classList.contains('open')) {
+      closeSavedPanel();
+    }
+  });
+
+  // Clic en tacho dentro del panel
+  savedListEl.addEventListener('click', (e) => {
+    const removeBtn = e.target.closest('.saved-item-remove');
+    if (removeBtn) {
+      const itemEl = removeBtn.closest('.saved-item');
+      if (!itemEl) return;
+
+      const slug = itemEl.getAttribute('data-slug') || '';
+      const key = getUserKey();
+      if (!key || !slug) return;
+
+      const map = loadSavedMap();
+      const list = Array.isArray(map[key]) ? map[key] : [];
+      const idx = list.findIndex(x => x.slug === slug);
+      if (idx !== -1) {
+        list.splice(idx, 1);
+        map[key] = list;
+        saveSavedMap(map);
+      }
+
+      renderSavedList();
+      updateCardBookmarksUI();
+      return;
+    }
+
+    const titleBtn = e.target.closest('.saved-item-title-btn');
+    if (titleBtn) {
+      const itemEl = titleBtn.closest('.saved-item');
+      if (!itemEl) return;
+
+      const slug = itemEl.getAttribute('data-slug');
+      if (!slug) return;
+
+      // cerramos el panel de guardados
+      closeSavedPanel();
+
+      // busca la card correspondiente en el DOM
+      let selectorSlug = slug;
+      if (window.CSS && CSS.escape) {
+        selectorSlug = CSS.escape(slug);
+      }
+      const card = document.querySelector(`article.card[data-slug="${selectorSlug}"]`);
+      if (!card) {
+        console.warn('No se encontró la card para el slug:', slug);
+        return;
+      }
+
+      // usa la misma lógica que “Leer más”
+      if (window.__handleReadMoreFromArticle) {
+        window.__handleReadMoreFromArticle(card);
+      }
+
+      return;
+    }
+  });
+  // Exponer función para actualizar bookmarks desde fuera
+  window.__updateCardBookmarks = updateCardBookmarksUI;
+
+  updateCardBookmarksUI();
 })();

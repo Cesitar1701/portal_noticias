@@ -55,8 +55,8 @@
         <div class="user-menu" id="user-menu">
           <div class="user-menu-card">
             <div class="user-menu-header">
-              <div class="user-menu-name" id="user-menu-name">shanks</div>
-              <div class="user-menu-email" id="user-menu-email">shanks@gmail.com</div>
+              <div class="user-menu-name" id="user-menu-name"></div>
+              <div class="user-menu-email" id="user-menu-email"></div>
             </div>
 
             <button class="user-menu-item" id="user-menu-saved" type="button">
@@ -144,7 +144,7 @@
           </article>
         </div>
 
-        <!-- Tabs por categoría (CSS-only con radios) -->
+        <!-- Tabs por categoría -->
         <section class="tabs">
           <h2 class="section-title with-accent">Noticias por categoría</h2>
           <div class="tabs-controls">
@@ -724,7 +724,22 @@
     </div>
   </div>
 
+  <!-- Panel de noticias guardadas -->
+  <div id="saved-panel" class="backdrop saved-backdrop">
+    <div class="saved-modal" role="dialog" aria-modal="true" aria-labelledby="saved-title">
+      <div class="saved-header">
+        <h2 id="saved-title">Noticias guardadas</h2>
+        <button class="saved-close" type="button" aria-label="Cerrar">&times;</button>
+      </div>
+      <div id="saved-list" class="saved-list">
+        <p class="saved-empty">Todavía no guardaste noticias.</p>
+      </div>
+    </div>
+  </div>
 
+  <!-- Toast para avisar que tiene que iniciar sesión -->
+  <div id="login-toast" class="login-toast" aria-live="polite"></div>
+  <!-- Scripts -->
 
   <script type="module" src="script.js"></script>
 </body>

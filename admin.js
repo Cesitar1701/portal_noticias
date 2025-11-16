@@ -94,13 +94,11 @@ const tbody = document.querySelector('#tbl tbody');
 function renderRows(records){
   tbody.innerHTML = records.map(rec=>{
     const flds = rec.fields||{};
-    const est = flds.Estado || '—';
     return `<tr>
       <td>${esc(flds.Titulo||'')}</td>
       <td><span class="pill">${esc(flds.Categoria||'')}</span></td>
       <td class="muted">${esc(flds.Fecha_publicada||'')}</td>
       <td class="muted">${esc(flds.Slug||'')}</td>
-      <td>${esc(est)}</td>
       <td><button class="btn" data-id="${rec.id}">Editar</button></td>
     </tr>`;
   }).join('');
@@ -114,7 +112,7 @@ tbody.addEventListener('click', (e)=>{
   loadBySlug(slug);
 });
 
-/* ======= Cargar por Slug (para editar) ======= */
+/* ======= Cargar por Slug ======= */
 async function loadBySlug(slug){
   try{
     setStatus('Cargando registro…');
