@@ -525,3 +525,264 @@ window.__handleReadMoreFromArticle = async function(articleEl) {
   }
 };
 
+
+
+/* ===========================
+   Auth + Menú de usuario
+   =========================== */
+
+(function () {
+  const btnLogin = document.querySelector('.btn-login');
+  const authBackdrop = document.getElementById('auth-modal');
+  const authForm = document.getElementById('auth-form');
+  const authTabs = authBackdrop ? authBackdrop.querySelectorAll('.auth-tab') : [];
+  const inputName = document.getElementById('auth-name');
+  const inputUser = document.getElementById('auth-email');
+  const inputPass = document.getElementById('auth-password');
+  const authCloseBtn = authBackdrop ? authBackdrop.querySelector('.auth-close') : null;
+  const authMsg = document.getElementById('auth-message');
+
+  const userMenu = document.getElementById('user-menu');
+  const userMenuName = document.getElementById('user-menu-name');
+  const userMenuEmail = document.getElementById('user-menu-email');
+  const btnSaved = document.getElementById('user-menu-saved');
+  const btnLogout = document.getElementById('user-menu-logout');
+
+  if (!btnLogin || !authBackdrop || !authForm || !userMenu) return;
+
+  const AUTH_STORAGE_KEY = 'noticias_auth_user';
+  let mode = 'login'; // 'login' | 'register'
+
+  // -------- storage simple (localStorage) --------
+  function getStoredUser() {
+    try {
+      const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      console.warn('No se pudo leer usuario almacenado', e);
+      return null;
+    }
+  }
+
+  function storeUser(user) {
+    try {
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+    } catch (e) {
+      console.warn('No se pudo guardar usuario', e);
+    }
+  }
+
+  function clearStoredUser() {
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch (e) {}
+  }
+
+  // -------- UI: logueado / deslogueado --------
+  function applyLoggedOutUI() {
+    btnLogin.classList.remove('is-avatar');
+    btnLogin.innerHTML = '<i class="fa-regular fa-user"></i> Ingresar';
+    btnLogin.dataset.logged = '0';
+    userMenu.classList.remove('open');
+  }
+
+  function applyLoggedInUI(user) {
+    const name = (user && user.name) || '';
+    const email = (user && user.email) || '';
+    const initial = (name || email || '?').trim().charAt(0).toUpperCase();
+
+    btnLogin.classList.add('is-avatar');
+    btnLogin.textContent = initial;
+    btnLogin.dataset.logged = '1';
+
+    if (userMenuName) userMenuName.textContent = name || email;
+    if (userMenuEmail) userMenuEmail.textContent = email;
+  }
+
+  // -------- Modal auth --------
+  function openAuth() {
+    authBackdrop.classList.add('open');
+    document.body.classList.add('no-scroll');
+    authMsg.textContent = '';
+    authMsg.className = 'auth-message';
+  }
+
+  function closeAuth() {
+    authBackdrop.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    authForm.reset();
+    authMsg.textContent = '';
+    authMsg.className = 'auth-message';
+
+    const nameField = inputName && inputName.closest('.auth-field');
+    if (nameField) {
+      nameField.style.display = mode === 'register' ? '' : 'none';
+    }
+  }
+
+  // Botón del header: si no está logueado abre modal, si sí, abre menú
+  btnLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    const logged = btnLogin.dataset.logged === '1';
+    if (logged) {
+      userMenu.classList.toggle('open');
+    } else {
+      openAuth();
+    }
+  });
+
+  // Tabs login / registro
+  authTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      authTabs.forEach((t) => t.classList.remove('active'));
+      tab.classList.add('active');
+      mode = tab.dataset.mode || 'login';
+
+      const nameField = inputName && inputName.closest('.auth-field');
+      if (nameField) {
+        nameField.style.display = mode === 'register' ? '' : 'none';
+      }
+
+      authMsg.textContent = '';
+      authMsg.className = 'auth-message';
+    });
+  });
+
+  // Cerrar modal
+  if (authCloseBtn) {
+    authCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeAuth();
+    });
+  }
+
+  authBackdrop.addEventListener('click', (e) => {
+    if (e.target === authBackdrop) {
+      closeAuth();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && authBackdrop.classList.contains('open')) {
+      closeAuth();
+    }
+  });
+
+  // -------- Airtable: registrar usuarios --------
+  const airtableUsersTable = 'Usuarios'; 
+  const airtableUsersURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(airtableUsersTable)}`;
+  const usersHeaders = {
+    'Authorization': `Bearer ${airtabletoken}`,
+    'Content-Type': 'application/json',
+  };
+
+  async function registerUser({ name, email, password }) {
+    const body = {
+      records: [
+        {
+          fields: {
+            Nombre: name || '',
+            Email: email,
+            Password: password, 
+            Rol: 'usuario',
+          },
+        },
+      ],
+    };
+
+    const res = await fetch(airtableUsersURL, {
+      method: 'POST',
+      headers: usersHeaders,
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Airtable ${res.status}`);
+    }
+    return res.json();
+  }
+
+  // -------- Submit del formulario --------
+  authForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    authMsg.textContent = '';
+    authMsg.className = 'auth-message';
+
+    const name = (inputName.value || '').trim();
+    const userOrEmail = (inputUser.value || '').trim();
+    const password = (inputPass.value || '').trim();
+
+    if (!userOrEmail || !password) {
+      authMsg.textContent = 'Completá usuario/email y contraseña.';
+      authMsg.classList.add('error');
+      return;
+    }
+
+    // ADMIN 
+    if (userOrEmail === 'Admin' && password === 'admin') {
+      window.location.href = 'admin.html';
+      return;
+    }
+
+    try {
+      if (mode === 'register') {
+        await registerUser({ name, email: userOrEmail, password });
+      }
+
+      // En ambos casos (login o registro) dejamos al usuario logueado
+      const user = { name, email: userOrEmail, role: 'usuario' };
+      storeUser(user);
+      applyLoggedInUI(user);
+      closeAuth();
+    } catch (err) {
+      console.error(err);
+      authMsg.textContent = 'No se pudo registrar el usuario en Airtable.';
+      authMsg.classList.add('error');
+    }
+  });
+
+  // -------- Menú: Cerrar sesión --------
+  if (btnLogout) {
+    btnLogout.addEventListener('click', (e) => {
+      e.preventDefault();
+      clearStoredUser();
+      applyLoggedOutUI();
+    });
+  }
+
+  // -------- Menú: Guardados (de momento solo placeholder) --------
+  if (btnSaved) {
+    btnSaved.addEventListener('click', (e) => {
+      e.preventDefault();
+      userMenu.classList.remove('open');
+      // Después lo conectamos con tus noticias guardadas
+      alert('Después conectamos este botón con tus noticias guardadas 😉');
+    });
+  }
+
+  // Cerrar el menú al hacer click fuera
+  document.addEventListener('click', (e) => {
+    if (!userMenu.classList.contains('open')) return;
+
+    const clickEnMenu = userMenu.contains(e.target);
+    const clickEnBoton = !!e.target.closest('.btn-login');
+
+    if (!clickEnMenu && !clickEnBoton) {
+      userMenu.classList.remove('open');
+    }
+  });
+
+  // -------- Estado inicial --------
+  const existingUser = getStoredUser();
+  if (existingUser) {
+    applyLoggedInUI(existingUser);
+  } else {
+    applyLoggedOutUI();
+  }
+
+  // Campo Nombre oculto por defecto (modo login)
+  const nameField = inputName && inputName.closest('.auth-field');
+  if (nameField) {
+    nameField.style.display = 'none';
+  }
+})();

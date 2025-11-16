@@ -45,8 +45,33 @@
       <div class="header-right">
         <button class="btn-circle dark"><i class="fa fa-search"></i></button>
         <button class="btn-circle"><i class="fa-regular fa-moon"></i></button>
-        <button class="btn-login"><i class="fa-regular fa-user"></i> Ingresar</button>
+
+        <!-- Botón de login / avatar -->
+        <button class="btn-login">
+          <i class="fa-regular fa-user"></i> Ingresar
+        </button>
+
+        <!-- Menú de usuario (se muestra solo cuando está logueado) -->
+        <div class="user-menu" id="user-menu">
+          <div class="user-menu-card">
+            <div class="user-menu-header">
+              <div class="user-menu-name" id="user-menu-name">shanks</div>
+              <div class="user-menu-email" id="user-menu-email">shanks@gmail.com</div>
+            </div>
+
+            <button class="user-menu-item" id="user-menu-saved" type="button">
+              <i class="fa-regular fa-bookmark"></i>
+              <span>Guardados</span>
+            </button>
+
+            <button class="user-menu-item" id="user-menu-logout" type="button">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <span>Cerrar sesión</span>
+            </button>
+          </div>
+        </div>
       </div>
+
     </div>
     <hr class="header-divider">
   </header>
@@ -494,8 +519,8 @@
   </footer>
 
 
-  
-  
+
+
   <!--modal completo de modal_noticompleta.html (usa :target para abrir) -->
   <div id="article-modal" class="backdrop">
     <article class="modal" role="dialog" aria-modal="true" aria-labelledby="ttl">
@@ -663,6 +688,45 @@
       </div>
     </article>
   </div>
+
+
+  <!-- Modal Auth (Login / Registro) -->
+  <div id="auth-modal" class="backdrop">
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button class="auth-close" type="button" aria-label="Cerrar">&times;</button>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-mode="login">Iniciar sesión</button>
+        <button type="button" class="auth-tab" data-mode="register">Registrarse</button>
+      </div>
+
+      <h2 id="auth-title" class="auth-title">Acceder a tu cuenta</h2>
+
+      <form id="auth-form">
+        <div class="auth-field">
+          <label for="auth-name">Nombre</label>
+          <input id="auth-name" name="name" type="text" placeholder="Tu nombre" autocomplete="name">
+        </div>
+
+        <div class="auth-field">
+          <label for="auth-email">Usuario o email</label>
+          <input id="auth-email" name="email" type="text" required autocomplete="username">
+        </div>
+
+        <div class="auth-field">
+          <label for="auth-password">Contraseña</label>
+          <input id="auth-password" name="password" type="password" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="auth-submit">Continuar</button>
+        <p id="auth-message" class="auth-message"></p>
+      </form>
+    </div>
+  </div>
+
+
+
   <script type="module" src="script.js"></script>
 </body>
+
 </html>

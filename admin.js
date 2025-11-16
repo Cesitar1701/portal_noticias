@@ -3,7 +3,7 @@ import { AIRTABLE_TOKEN, BASE_ID, TABLE_NAME } from './env.js';
 const airtabletoken = AIRTABLE_TOKEN;
 const baseId        = BASE_ID;
 const tableName     = TABLE_NAME;
-const viewName      = "Grid view"; // o "" si no querés usar vista
+const viewName      = "Grid view"; 
 
 /* ======= Helpers ======= */
 const esc = s => (s||'').toString().replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
