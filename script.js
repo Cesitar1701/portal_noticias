@@ -740,6 +740,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
       if (window.__updateCardBookmarks) {
         window.__updateCardBookmarks();
       }
+      if (window.__updateSavedCounter) {
+        window.__updateSavedCounter();
+      }
     } catch (err) {
       console.error(err);
       authMsg.textContent = 'No se pudo registrar el usuario en Airtable.';
@@ -756,6 +759,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 
       if (window.__updateCardBookmarks) {
         window.__updateCardBookmarks();
+      }
+      if (window.__updateSavedCounter) {
+        window.__updateSavedCounter();
       }
     });
   }
@@ -801,6 +807,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   const savedListEl = document.getElementById('saved-list');
   const savedCloseBtn = savedBackdrop ? savedBackdrop.querySelector('.saved-close') : null;
   const loginToastEl = document.getElementById('login-toast');
+  const savedCountEl = document.getElementById('saved-count');
 
   if (!savedBackdrop || !savedListEl) return;
 
@@ -843,13 +850,19 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     const map = loadSavedMap();
     return Array.isArray(map[key]) ? map[key] : [];
   }
+  function updateSavedCountBadge() {
+    if (!savedCountEl) return;
 
-  function setSavedForCurrentUser(list) {
-    const key = getUserKey();
-    if (!key) return;
-    const map = loadSavedMap();
-    map[key] = list;
-    saveSavedMap(map);
+    const saved = getSavedForCurrentUser();
+    const n = saved.length;
+
+    if (n > 0) {
+      savedCountEl.textContent = n;
+      savedCountEl.classList.add('visible');
+    } else {
+      savedCountEl.textContent = '0';
+      savedCountEl.classList.remove('visible');
+    }
   }
 
   // -------- UI helpers --------
@@ -930,6 +943,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     map[userKey] = list;
     saveSavedMap(map);
     updateCardBookmarksUI();
+    updateSavedCountBadge();
 
     if (loginToastEl) {
       loginToastEl.textContent = savedNow ? 'Noticia guardada.' : 'Noticia eliminada de guardados.';
@@ -1041,6 +1055,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 
       renderSavedList();
       updateCardBookmarksUI();
+      updateSavedCountBadge();
       return;
     }
 
@@ -1076,6 +1091,8 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   });
   // Exponer función para actualizar bookmarks desde fuera
   window.__updateCardBookmarks = updateCardBookmarksUI;
+  window.__updateSavedCounter = updateSavedCountBadge;
 
   updateCardBookmarksUI();
+  updateSavedCountBadge();
 })();
