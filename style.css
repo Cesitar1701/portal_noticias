@@ -147,6 +147,39 @@ a {
   gap: 12px;
 }
 
+/* Buscador en header */
+.header-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header-search-input {
+  position: absolute;
+  right: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .12);
+  outline: none;
+  transition: width 0.25s ease, opacity 0.2s ease, padding 0.25s ease;
+  pointer-events: none;
+}
+
+.header-search-input.active {
+  width: 260px;
+  opacity: 1;
+  padding: 8px 12px;
+  pointer-events: auto;
+}
+
+
 .btn-login {
   background: var(--brand);
   color: #fff;
@@ -1378,6 +1411,25 @@ a {
     overflow: hidden;
     height: 100vh;
   }
+
+  .header-search-input {
+    position: fixed;
+    top: 65px;
+    left: 12px;
+    right: 12px;
+    transform: none;
+    width: auto;
+    opacity: 0;
+    padding: 0;
+    z-index: 900;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, .18);
+  }
+
+  .header-search-input.active {
+    opacity: 1;
+    padding: 10px 14px;
+  }
+
 }
 
 /* -------------------------
@@ -2111,6 +2163,7 @@ a {
 .user-menu-item i {
   font-size: 14px;
 }
+
 .user-menu-badge {
   min-width: 18px;
   height: 18px;
@@ -2120,10 +2173,10 @@ a {
   color: #fff;
   font-size: 11px;
   font-weight: 600;
-  display: none;                 
+  display: none;
   align-items: center;
   justify-content: center;
-  margin-left: auto;             
+  margin-left: auto;
 }
 
 .user-menu-badge.visible {
@@ -2220,11 +2273,11 @@ a {
   font-size: 0.9rem;
   font-weight: 600;
   color: #111827;
-  white-space: nowrap;        
-  overflow: hidden;            
-  text-overflow: ellipsis;     
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: block;
-  max-width: 100%;          
+  max-width: 100%;
 }
 
 .saved-item-title-btn {
@@ -2289,6 +2342,7 @@ a {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* -------------------------
    Modal Contacto
    ------------------------- */
@@ -2313,7 +2367,7 @@ a {
   background: #fff;
   border-radius: 16px;
   padding: 20px 22px;
-  box-shadow: 0 24px 55px rgba(15,23,42,0.4);
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.4);
   position: relative;
 }
 
@@ -2360,7 +2414,7 @@ a {
 .contact-field textarea:focus {
   outline: none;
   border-color: var(--brand);
-  box-shadow: 0 0 0 1px rgba(227,6,19,0.15);
+  box-shadow: 0 0 0 1px rgba(227, 6, 19, 0.15);
 }
 
 .contact-submit {

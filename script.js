@@ -292,6 +292,34 @@ async function fetchAirtableAll() {
     // 2) Separar últimas 3 y resto
     const latest3 = mapped.slice(0, 3);
     const rest = mapped.slice(3);
+    // Buscador global: filtra sobre todas las noticias cargadas
+    window.__applySearchFilter = function (term) {
+      const latestContainer = document.querySelector('.col-main .cards-3');
+      if (!latestContainer) return;
+
+      const t = norm(term);
+      // Si no hay termino, volvemos a mostrar las últimas 3
+      if (!t) {
+        latestContainer.innerHTML = latest3.map(renderCardHTML).join('');
+        if (window.__updateCardBookmarks) window.__updateCardBookmarks();
+        return;
+      }
+
+      // Filtra por título, categoría o bajada
+      const filtered = mapped.filter((r) => {
+        const haystack = norm(`${r.title} ${r.category} ${r.excerpt}`);
+        return haystack.includes(t);
+      });
+
+      if (!filtered.length) {
+        latestContainer.innerHTML =
+          `<p class="muted">No se encontraron noticias para "${esc(term)}".</p>`;
+        return;
+      }
+
+      latestContainer.innerHTML = filtered.map(renderCardHTML).join('');
+      if (window.__updateCardBookmarks) window.__updateCardBookmarks();
+    };
 
     // 3) Pintar “Últimas noticias”
     const latestContainer = document.querySelector('.col-main .cards-3');
@@ -451,12 +479,12 @@ async function fetchOneBySlug(slug) {
     p1: (f.P1 || '').toString(),
     p2: (f.P2 || '').toString(),
     p3: (f.P3 || '').toString(),
-    mediaUrl: (f.Media || '').toString(),        //UNA sola columna Media
+    mediaUrl: (f.Media || '').toString(),
     mediaAlt: (f.Titulo || '').toString()
   };
 }
 
-// Handler final del modal (usa fetchOneBySlug + buildArticleBody)
+// Handler final del modal 
 window.__handleReadMoreFromArticle = async function (articleEl) {
   const img = articleEl.querySelector('img.cover');
   const kicker = articleEl.querySelector('.kicker');
@@ -1153,14 +1181,14 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
    Envío de Contacto → Airtable
    =========================== */
 (function () {
-  const form   = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form');
   const status = document.getElementById('contact-status');
 
   if (!form || !status) return;
 
   const table = "Contactos";
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`;
-  
+
   const headers = {
     "Authorization": `Bearer ${airtabletoken}`,
     "Content-Type": "application/json",
@@ -1171,9 +1199,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
       records: [
         {
           fields: {
-            Nombre:  data.name,
-            Email:   data.email,
-            Asunto:  data.subject,
+            Nombre: data.name,
+            Email: data.email,
+            Asunto: data.subject,
             Mensaje: data.message,
           },
         },
@@ -1194,7 +1222,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     status.textContent = "";
     status.className = "contact-status";
 
@@ -1222,3 +1250,66 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     }
   });
 })();
+
+/* ===========================
+   Buscador en el header
+   =========================== */
+(function () {
+  const btn = document.getElementById('header-search-btn');
+  const input = document.getElementById('header-search-input');
+  if (!btn || !input) return;
+
+  function closeInput() {
+    input.classList.remove('active');
+    input.value = '';
+    if (window.__applySearchFilter) {
+      window.__applySearchFilter('');
+    }
+  }
+
+  function toggleInput() {
+    const willOpen = !input.classList.contains('active');
+    if (willOpen) {
+      input.classList.add('active');
+      input.focus();
+    } else {
+      closeInput();
+    }
+  }
+
+  // Click en el botón de lupa
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleInput();
+  });
+
+  // Cerrar click fuera
+  document.addEventListener('click', (e) => {
+    const inside =
+      e.target === input ||
+      e.target === btn ||
+      e.target.closest('.header-search');
+    if (!inside && input.classList.contains('active')) {
+      closeInput();
+    }
+  });
+
+  // Buscar al escribir
+  input.addEventListener('input', () => {
+    const term = input.value.trim();
+    if (window.__applySearchFilter) {
+      window.__applySearchFilter(term);
+    }
+  });
+
+  // Enter también dispara búsqueda 
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const term = input.value.trim();
+      if (window.__applySearchFilter) {
+        window.__applySearchFilter(term);
+      }
+    }
+  });
+})();
+

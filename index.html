@@ -43,7 +43,13 @@
       </div>
 
       <div class="header-right">
-        <button class="btn-circle dark"><i class="fa fa-search"></i></button>
+        <div class="header-search">
+          <button class="btn-circle dark" id="header-search-btn" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+          <input id="header-search-input" class="header-search-input" type="search" placeholder="Buscar noticias..."
+            autocomplete="off" />
+        </div>
         <button class="btn-circle"><i class="fa-regular fa-moon"></i></button>
 
         <!-- Botón de login / avatar -->
@@ -742,44 +748,44 @@
   <div id="login-toast" class="login-toast" aria-live="polite"></div>
   <!-- Scripts -->
 
- <!-- Modal de Contacto -->
-<div id="contact-modal" class="backdrop contact-backdrop">
-  <div class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
-    
-    <button class="contact-close" type="button" aria-label="Cerrar">&times;</button>
+  <!-- Modal de Contacto -->
+  <div id="contact-modal" class="backdrop contact-backdrop">
+    <div class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
 
-    <h2 id="contact-title" class="contact-modal-title">Contacto</h2>
+      <button class="contact-close" type="button" aria-label="Cerrar">&times;</button>
 
-    <p class="contact-modal-intro">
-      Escribinos tu consulta y te responderemos a la brevedad.
-    </p>
+      <h2 id="contact-title" class="contact-modal-title">Contacto</h2>
 
-    <form id="contact-form" class="contact-form">
-      <div class="contact-field">
-        <label for="contact-name">Nombre</label>
-        <input type="text" id="contact-name" name="name" required placeholder="Tu nombre">
-      </div>
+      <p class="contact-modal-intro">
+        Escribinos tu consulta y te responderemos a la brevedad.
+      </p>
 
-      <div class="contact-field">
-        <label for="contact-email">Email</label>
-        <input type="email" id="contact-email" name="email" required placeholder="tunombre@mail.com">
-      </div>
+      <form id="contact-form" class="contact-form">
+        <div class="contact-field">
+          <label for="contact-name">Nombre</label>
+          <input type="text" id="contact-name" name="name" required placeholder="Tu nombre">
+        </div>
 
-      <div class="contact-field">
-        <label for="contact-subject">Asunto</label>
-        <input type="text" id="contact-subject" name="subject" required placeholder="Motivo del mensaje">
-      </div>
+        <div class="contact-field">
+          <label for="contact-email">Email</label>
+          <input type="email" id="contact-email" name="email" required placeholder="tunombre@mail.com">
+        </div>
 
-      <div class="contact-field">
-        <label for="contact-message">Mensaje</label>
-        <textarea id="contact-message" name="message" rows="4" required placeholder="Escribí tu mensaje"></textarea>
-      </div>
+        <div class="contact-field">
+          <label for="contact-subject">Asunto</label>
+          <input type="text" id="contact-subject" name="subject" required placeholder="Motivo del mensaje">
+        </div>
 
-      <button type="submit" class="contact-submit">Enviar mensaje</button>
-      <p id="contact-status" class="contact-status"></p>
-    </form>
+        <div class="contact-field">
+          <label for="contact-message">Mensaje</label>
+          <textarea id="contact-message" name="message" rows="4" required placeholder="Escribí tu mensaje"></textarea>
+        </div>
+
+        <button type="submit" class="contact-submit">Enviar mensaje</button>
+        <p id="contact-status" class="contact-status"></p>
+      </form>
+    </div>
   </div>
-</div>
 
 
   <script type="module" src="script.js"></script>
