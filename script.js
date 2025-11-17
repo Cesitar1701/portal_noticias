@@ -1096,3 +1096,129 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   updateCardBookmarksUI();
   updateSavedCountBadge();
 })();
+
+
+/* ===========================
+   Modal de Contacto (abrir/cerrar)
+   =========================== */
+(function () {
+  const footerBtn = document.getElementById('footer-contact');
+  const backdrop = document.getElementById('contact-modal');
+  const closeBtn = backdrop ? backdrop.querySelector('.contact-close') : null;
+
+  if (!footerBtn || !backdrop) return;
+
+  function openContact() {
+    backdrop.classList.add('open');
+    document.body.classList.add('no-scroll');
+  }
+
+  function closeContact() {
+    backdrop.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('contact-status');
+    if (form) form.reset();
+    if (status) {
+      status.textContent = '';
+      status.className = 'contact-status';
+    }
+  }
+
+  footerBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openContact();
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeContact();
+    });
+  }
+
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeContact();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop.classList.contains('open')) {
+      closeContact();
+    }
+  });
+})();
+
+
+/* ===========================
+   Envío de Contacto → Airtable
+   =========================== */
+(function () {
+  const form   = document.getElementById('contact-form');
+  const status = document.getElementById('contact-status');
+
+  if (!form || !status) return;
+
+  const table = "Contactos";
+  const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`;
+  
+  const headers = {
+    "Authorization": `Bearer ${airtabletoken}`,
+    "Content-Type": "application/json",
+  };
+
+  async function sendMessage(data) {
+    const body = {
+      records: [
+        {
+          fields: {
+            Nombre:  data.name,
+            Email:   data.email,
+            Asunto:  data.subject,
+            Mensaje: data.message,
+          },
+        },
+      ],
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(`Airtable ${res.status}: ${txt}`);
+    }
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    status.textContent = "";
+    status.className = "contact-status";
+
+    const fd = new FormData(form);
+    const data = {
+      name: fd.get("name").trim(),
+      email: fd.get("email").trim(),
+      subject: fd.get("subject").trim(),
+      message: fd.get("message").trim(),
+    };
+
+    const btn = form.querySelector(".contact-submit");
+    btn.disabled = true;
+
+    try {
+      await sendMessage(data);
+      status.textContent = "¡Mensaje enviado correctamente!";
+      status.classList.add("ok");
+      form.reset();
+    } catch (err) {
+      status.textContent = "No se pudo enviar. Intentá nuevamente.";
+      status.classList.add("error");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
