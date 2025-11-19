@@ -1313,3 +1313,57 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   });
 })();
 
+// Inicio JS Dolar Cotizaciones
+async function loadDolarCotizaciones() {
+  try {
+    const res = await fetch("https://dolarapi.com/v1/dolares");
+    if (!res.ok) throw new Error('Error HTTP'+res.status);
+    const data = await res.json();
+    const map = {};
+    data.forEach(d => {
+      const key = (d.casa || d.nombre || '').toString().toLowerCase();
+      if (!key) return;
+      map[key] = d;
+    });
+
+    function updateItem(label, apikey){
+      const item = Array.from(document.querySelectorAll(`.widget.currency .currency-item`)). find(el => {
+        const nameE1 = el.querySelector('.ci-name');
+        return nameE1 && nameE1.textContent.toLowerCase().includes(label.toLowerCase());
+    });
+      if (!item) return;
+      const d = map[apikey];
+      if (!data) return;
+
+      const compra = typeof d.compra === 'number' ? d.compra : Number(d.compra);
+      const venta = typeof d.venta === 'number' ? d.venta : Number(d.venta);
+
+      const rateValues = item.querySelectorAll(`.rate-value`);
+      if (rateValues[0]){
+        rateValues[0].textContent = isNaN(compra) ? '-' : `$${compra.toFixed(2)}`;
+      }
+      if (rateValues[1]){
+        rateValues[1].textContent = isNaN(venta) ? '-' : `$${venta.toFixed(2)}`;
+      }
+    }
+
+    updateItem('Oficial', 'oficial');
+    updateItem('Blue', 'blue');
+    updateItem('MEP', 'bolsa');
+    updateItem('CCL', 'contadoconliqui');
+    updateItem('Tarjeta', 'tarjeta');
+
+    const upd = document.querySelector('.widget.currency .currency-updated');
+    if (upd) {
+      const ahora = new Date();
+      const hh = String(ahora.getHours()).padStart(2, '0');
+      const mm = String(ahora.getMinutes()).padStart(2, '0');
+      upd.textContent = `Actualizado ${hh}:${mm} hs`;
+    }
+  } catch (err) {
+    console.error('No se pudieron cargar cotizaciones de Dólar:', err);
+  }
+}
+
+loadDolarCotizaciones();
+setInterval(loadDolarCotizaciones, 300000); // cada 5 minutos
