@@ -9,15 +9,15 @@ const viewName = "Grid view";
 function timeAgo(dateStr) {
   if (!dateStr) return '';
   const n = new Date(), d = new Date(dateStr);
-  const diff = Math.max(0, n - d);
-  const mins = Math.floor(diff / 60000);
+  const diff = Math.max(0, n - d);  // se asegura de que nunca sea 0
+  const mins = Math.floor(diff / 60000); // se redondea hacia abajo
   if (mins < 60) return `hace ${mins} min`;
   const hrs = Math.floor(mins / 60);
   if (hrs < 24) return `hace ${hrs} h`;
   const days = Math.floor(hrs / 24);
   return `hace ${days} d`;
 }
-function esc(s) {
+function esc(s) {  // evita que un título o bajada traída de Airtable rompa el HTML o meta cosas raras.
   return (s || '').toString()
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -25,17 +25,17 @@ function esc(s) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
-const norm = s => (s || '').toString().trim().toLowerCase()
+const norm = s => (s || '').toString().trim().toLowerCase() // normaliza texto para buscar y comparar
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 /* ===========================
    RENDER DE UNA CARD 
    =========================== */
-function renderCardHTML(rec) {
+function renderCardHTML(rec) { //Esta función toma una noticia (un objeto rec) y devuelve HTML listo para mostrar una card de noticia en tu página.
   const title = esc(rec.title), cat = esc(rec.category), excerpt = esc(rec.excerpt);
   const img = esc(rec.hero), meta = timeAgo(rec.publishedAt);
   return `
-<article class="card" data-slug="${esc(rec.slug)}"data-title="${title}"
+<article class="card" data-slug="${esc(rec.slug)}" data-title="${title}"
   data-category="${cat}"
   data-meta="${esc(meta)}"
   data-img="${img}">
@@ -98,7 +98,7 @@ function renderCardHTML(rec) {
     };
   }
 
-  function fillModal(data) {
+  function fillModal(data) {       // esta funcion carga datos en el modal
     if (badgeEl) badgeEl.textContent = data.category;
     if (heroImg) {
       if (data.imgSrc) heroImg.src = data.imgSrc;
@@ -164,7 +164,7 @@ function renderCardHTML(rec) {
     controls.insertAdjacentElement('afterend', results);
   }
 
-  const idToCat = {
+  const idToCat = {  // diccionario de id de tab a categoría normalizada
     'tab-todas': 'todas',
     'tab-politica': 'politica',
     'tab-salud': 'salud',
@@ -184,7 +184,7 @@ function renderCardHTML(rec) {
     return { category: norm(catText), html: card.outerHTML };
   });
 
-  let currentCategory = 'todas';
+  let currentCategory = 'todas'; // sirve para saber que categoria esta activa
 
   function render(categoryNorm) {
     currentCategory = categoryNorm || 'todas';
@@ -195,7 +195,7 @@ function renderCardHTML(rec) {
       : '<p class="muted">No hay noticias en esta categoría (todavía).</p>';
   }
 
-  controls.addEventListener('change', (e) => {
+  controls.addEventListener('change', (e) => { // funcion en donde renderiza de acuerdo con las tabs seleccionadas
     if (e.target && e.target.name === 'tabs') {
       const category = idToCat[e.target.id] || 'todas';
       render(category);
@@ -244,6 +244,39 @@ function renderCardHTML(rec) {
   }
 })();
 
+const featuredViewName = "Featured";
+
+async function fetchFeaturedOne() {
+  const baseURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
+  const params = new URLSearchParams({
+    pageSize: '1',
+    view: featuredViewName
+  });
+
+  const headers = {
+    'Authorization': `Bearer ${airtabletoken}`,
+    'Content-Type': 'application/json',
+  };
+
+  const res = await fetch(`${baseURL}?${params.toString()}`, { headers });
+  if (!res.ok) throw new Error(`Airtable ${res.status}: ${await res.text()}`);
+
+  const data = await res.json();
+  const rec = (data.records && data.records[0]) ? data.records[0] : null;
+  if (!rec) return null;
+
+  const f = rec.fields || {};
+  return {
+    title: (f.Titulo || '').trim(),
+    category: (f.Categoria || 'NOTICIAS').toString(),
+    excerpt: (f.Parrafo || '').trim(),
+    hero: (f.Img || '').toString(),
+    publishedAt: (f.Fecha_publicada || '').toString(),
+    slug: (f.Slug || '').toString(),
+  };
+}
+
+
 // Descarga todas las páginas
 async function fetchAirtableAll() {
   const baseURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
@@ -289,9 +322,45 @@ async function fetchAirtableAll() {
     const ts = (r) => Date.parse(r.publishedAt) || 0;
     mapped.sort((a, b) => ts(b) - ts(a));
 
-    // 2) Separar últimas 3 y resto
-    const latest3 = mapped.slice(0, 3);
-    const rest = mapped.slice(3);
+    // HERO: traer 1 destacada desde la View Featured
+    const featuredRec = await fetchFeaturedOne();
+
+    // Pintar HERO si hay destacada
+    if (featuredRec && featuredRec.slug) {
+      const heroArticle = document.querySelector('.featured .feature-card');
+      if (heroArticle) {
+        heroArticle.setAttribute('data-slug', featuredRec.slug);
+
+        // Para que el contador de guardados/bookmarks también lo detecte:
+        const b = heroArticle.querySelector('.feature-bookmark');
+        if (b) b.classList.add('card-bookmark');
+
+        const img = heroArticle.querySelector('img.feature-media');
+        if (img) { img.src = featuredRec.hero || img.src; img.alt = featuredRec.title || img.alt; }
+
+        const chip = heroArticle.querySelector('.chip');
+        if (chip) chip.textContent = featuredRec.category || 'NOTICIAS';
+
+        const meta = heroArticle.querySelector('.meta');
+        if (meta) meta.innerHTML = `<i class="fa-regular fa-clock"></i> ${timeAgo(featuredRec.publishedAt)}`;
+
+        const h1 = heroArticle.querySelector('h1');
+        if (h1) h1.textContent = featuredRec.title || '';
+
+        const desc = heroArticle.querySelector('.desc');
+        if (desc) desc.textContent = featuredRec.excerpt || '';
+      }
+    }
+
+    // Quitar la destacada del feed para NO duplicarla en Últimas/Tabs
+    const mappedWithoutFeatured = (featuredRec && featuredRec.slug)
+      ? mapped.filter(n => n.slug !== featuredRec.slug)
+      : mapped;
+
+    // Usar mappedWithoutFeatured para slices  2) Separar últimas 3 y resto
+    const latest3 = mappedWithoutFeatured.slice(0, 3);
+    const rest = mappedWithoutFeatured.slice(3);
+
     // Buscador global: filtra sobre todas las noticias cargadas
     window.__applySearchFilter = function (term) {
       const latestContainer = document.querySelector('.col-main .cards-3');
@@ -486,22 +555,23 @@ async function fetchOneBySlug(slug) {
 
 // Handler final del modal 
 window.__handleReadMoreFromArticle = async function (articleEl) {
-  const img = articleEl.querySelector('img.cover');
-  const kicker = articleEl.querySelector('.kicker');
-  const title = articleEl.querySelector('h3');
-  const desc = articleEl.querySelector('p');
-  const time = articleEl.querySelector('.card-meta')?.textContent?.trim();
+  const imgEl = articleEl.querySelector('img.cover') || articleEl.querySelector('img.feature-media');
+  const kickerEl = articleEl.querySelector('.kicker') || articleEl.querySelector('.chip');
+  const titleEl = articleEl.querySelector('h3') || articleEl.querySelector('h1');
+  const descEl = articleEl.querySelector('p') || articleEl.querySelector('.desc');
+  const timeText = (articleEl.querySelector('.card-meta') || articleEl.querySelector('.meta'))?.textContent?.trim();
 
   const initialData = {
-    category: kicker?.textContent?.trim() || 'NOTICIAS',
-    title: title?.textContent?.trim() || '',
-    desc: desc?.textContent?.trim() || '',
-    imgSrc: img?.getAttribute('src') || '',
-    imgAlt: img?.getAttribute('alt') || '',
-    time: time || '',
+    category: kickerEl?.textContent?.trim() || 'NOTICIAS',
+    title: titleEl?.textContent?.trim() || '',
+    desc: descEl?.textContent?.trim() || '',
+    imgSrc: imgEl?.getAttribute('src') || '',
+    imgAlt: imgEl?.getAttribute('alt') || '',
+    time: timeText || '',
     author: 'Redacción',
     views: null,
   };
+
 
   // Cabecera inicial
   if (typeof window.__fillModal === 'function') window.__fillModal(initialData);
@@ -1317,7 +1387,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 async function loadDolarCotizaciones() {
   try {
     const res = await fetch("https://dolarapi.com/v1/dolares");
-    if (!res.ok) throw new Error('Error HTTP'+res.status);
+    if (!res.ok) throw new Error('Error HTTP' + res.status);
     const data = await res.json();
     const map = {};
     data.forEach(d => {
@@ -1326,11 +1396,11 @@ async function loadDolarCotizaciones() {
       map[key] = d;
     });
 
-    function updateItem(label, apikey){
-      const item = Array.from(document.querySelectorAll(`.widget.currency .currency-item`)). find(el => {
+    function updateItem(label, apikey) {
+      const item = Array.from(document.querySelectorAll(`.widget.currency .currency-item`)).find(el => {
         const nameE1 = el.querySelector('.ci-name');
         return nameE1 && nameE1.textContent.toLowerCase().includes(label.toLowerCase());
-    });
+      });
       if (!item) return;
       const d = map[apikey];
       if (!data) return;
@@ -1339,10 +1409,10 @@ async function loadDolarCotizaciones() {
       const venta = typeof d.venta === 'number' ? d.venta : Number(d.venta);
 
       const rateValues = item.querySelectorAll(`.rate-value`);
-      if (rateValues[0]){
+      if (rateValues[0]) {
         rateValues[0].textContent = isNaN(compra) ? '-' : `$${compra.toFixed(2)}`;
       }
-      if (rateValues[1]){
+      if (rateValues[1]) {
         rateValues[1].textContent = isNaN(venta) ? '-' : `$${venta.toFixed(2)}`;
       }
     }
@@ -1366,4 +1436,19 @@ async function loadDolarCotizaciones() {
 }
 
 loadDolarCotizaciones();
-setInterval(loadDolarCotizaciones, 300000); // cada 5 minutos
+setInterval(loadDolarCotizaciones, 300000); // cada 5 minutos}}
+
+
+(function bindFeaturedReadMore() {
+  const featured = document.querySelector('.featured');
+  if (!featured) return;
+
+  featured.addEventListener('click', (e) => {
+    const a = e.target.closest('a.read-more');
+    if (!a) return;
+    e.preventDefault();
+
+    const article = a.closest('article');
+    if (window.__handleReadMoreFromArticle) window.__handleReadMoreFromArticle(article);
+  });
+})();

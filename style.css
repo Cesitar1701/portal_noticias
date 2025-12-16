@@ -1159,280 +1159,6 @@ a {
 }
 
 /* -------------------------
-   Media Queries
-   ------------------------- */
-@media (max-width:1100px) {}
-
-@media (max-width:860px) {
-  .container.footer-top {
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .footer-top .container {
-    align-items: flex-start;
-  }
-
-  .footer-bottom-inner {
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .footer-links {
-    margin-top: 8px;
-  }
-
-  .ft-col {
-    width: 100%;
-  }
-
-  .grid-main {
-    grid-template-columns: 1fr;
-  }
-
-  .main-nav {
-    display: none;
-  }
-}
-
-@media (max-width:799px) {
-  .video-card {
-    width: 86%;
-    min-width: 86%;
-    border-radius: 12px;
-  }
-
-  .video-card img {
-    height: 200px;
-  }
-
-  .video-card .video-caption {
-    text-align: center;
-  }
-
-  .carousel-btn {
-    display: none;
-  }
-}
-
-@media (max-width:560px) {
-  .tabs label {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-
-  .widget.weather {
-    border-radius: 12px;
-    padding: 14px;
-  }
-
-  .widget.weather .weather-temp .temp {
-    font-size: 48px;
-  }
-
-  .brand-desc {
-    max-width: 100%;
-  }
-
-  .social {
-    width: 36px;
-    height: 36px;
-  }
-
-  .footer-top {
-    padding: 20px 0;
-  }
-}
-
-/* Drawer & mobile drawer styles (kept for mobile behavior) */
-@media (max-width:768px) {
-  .header-container {
-    padding: 0 12px;
-  }
-
-  .menu-btn {
-    display: block;
-  }
-
-  .header-left {
-    flex: 1;
-  }
-
-  .menu-container {
-    order: 2;
-  }
-
-  .header-left .logo img,
-  .logo-img {
-    height: 36px;
-  }
-
-  .btn-circle.hide-mobile {
-    display: none;
-  }
-
-  .btn-login {
-    padding: 8px 12px;
-  }
-
-  /* Drawer */
-  .drawer-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .35);
-    z-index: 999;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 180ms ease;
-  }
-
-  .drawer-overlay.open {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .mobile-drawer {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 320px;
-    max-width: 86vw;
-    background: #fff;
-    z-index: 1000;
-    transform: translateX(-120%);
-    transition: transform 240ms cubic-bezier(.2, .9, .2, 1);
-    border-radius: 0 12px 12px 0;
-    box-shadow: 6px 0 30px rgba(0, 0, 0, .12);
-    overflow-y: auto;
-  }
-
-  .mobile-drawer.open {
-    transform: translateX(0);
-  }
-
-  .drawer-inner {
-    padding: 18px;
-  }
-
-  .drawer-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .drawer-title {
-    margin: 0;
-    font-size: 16px;
-    color: #2b2b2b;
-    font-weight: 600;
-  }
-
-  .drawer-close {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .drawer-search {
-    margin: 12px 0;
-  }
-
-  .search-input {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .search-input input {
-    flex: 1;
-    padding: 10px 12px;
-    border-radius: 24px;
-    border: 1px solid var(--border);
-  }
-
-  .search-btn {
-    background: #0f1724;
-    color: #fff;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .drawer-cats {
-    margin-top: 8px;
-  }
-
-  .cats-label {
-    font-size: 12px;
-    color: #8b93a0;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-
-  .all-news {
-    display: block;
-    width: 100%;
-    background: var(--brand);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    font-weight: 700;
-  }
-
-  .cats-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .cats-list li {
-    padding: 14px 0;
-    border-bottom: 1px solid #f3f3f3;
-    color: #4b5563;
-  }
-
-  .cats-list li:last-child {
-    border-bottom: none;
-  }
-
-  body.no-scroll {
-    overflow: hidden;
-    height: 100vh;
-  }
-
-  .header-search-input {
-    position: fixed;
-    top: 65px;
-    left: 12px;
-    right: 12px;
-    transform: none;
-    width: auto;
-    opacity: 0;
-    padding: 0;
-    z-index: 900;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, .18);
-  }
-
-  .header-search-input.active {
-    opacity: 1;
-    padding: 10px 14px;
-  }
-
-}
-
-/* -------------------------
    Modal styles (article modal)
    ------------------------- */
 #article-modal.backdrop {
@@ -1667,17 +1393,7 @@ a {
   gap: 12px
 }
 
-@media (min-width:768px) {
-  #article-modal .related__grid {
-    grid-template-columns: repeat(2, 1fr)
-  }
-}
-
-@media (min-width:1280px) {
-  #article-modal .related__grid {
-    grid-template-columns: repeat(3, 1fr)
-  }
-}
+/* related grid breakpoints moved to responsive.css */
 
 #article-modal .card {
   border: 1px solid var(--border);
@@ -1772,12 +1488,7 @@ a {
   font-weight: 700
 }
 
-@media (min-width:640px) {
-  #article-modal .avatar {
-    width: 64px;
-    height: 64px
-  }
-}
+/* avatar breakpoint moved to responsive.css */
 
 #article-modal .author__meta {
   display: flex;
@@ -1870,12 +1581,7 @@ a {
   font-weight: 700
 }
 
-@media (min-width:640px) {
-  .avatar {
-    width: 64px;
-    height: 64px
-  }
-}
+/* avatar breakpoint moved to responsive.css */
 
 .author__meta {
   display: flex;
@@ -1914,11 +1620,6 @@ a {
   background: #fff
 }
 
-/* small helpers for close link alignment */
-
-/* ====== Header refinements to match design image ====== */
-
-/* Badge (kicker) style: pill with shadow and uppercase text like the screenshot */
 #article-modal .badge {
   background: var(--brand);
   color: #fff;
@@ -1931,7 +1632,6 @@ a {
   box-shadow: 0 6px 18px rgba(227, 6, 19, .14);
 }
 
-/* Icon row: slightly larger gap and muted icon color */
 #article-modal .iconrow {
   display: flex;
   align-items: center;

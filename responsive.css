@@ -1,0 +1,427 @@
+/* ============================
+   RESPONSIVE (NotiPlus)
+   - Mobile first overrides
+   ============================ */
+
+/* ----------- <= 1024px (tablet y menos) ----------- */
+@media (max-width: 1024px) {
+  .header-container{
+    padding: 0 16px;
+  }
+
+  /* Layout principal: 1 columna (aside abajo) */
+  .grid-main{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .col-aside{
+    order: 2;
+  }
+  .col-main{
+    order: 1;
+  }
+
+  /* Featured */
+  .feature-media{
+    height: 420px;
+  }
+  .feature-body{
+    padding: 22px;
+  }
+  .feature-body .feature-content{
+    max-width: 100%;
+  }
+
+  /* Últimas noticias: que no queden 3 fijas */
+  .cards-3{
+    gap: 12px;
+  }
+  .card{
+    width: 100%;
+    flex: 1 1 320px;
+  }
+
+  /* Weather widget: sin widths fijos */
+  .weather-city-btn,
+  .city-menu{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .weather-forecast{
+    gap: 18px;
+    justify-content: space-between;
+  }
+
+  .widget.weather .weather-stats{
+    gap: 18px;
+  }
+  .footer-top {
+    padding: 40px 0 22px;
+  }
+
+  .container.footer-top {
+    gap: 28px;
+  }
+}
+
+
+/* ----------- <= 700px (celular) ----------- */
+@media (max-width: 700px) {
+  /* Container: menos padding como en tus capturas */
+  .container{
+    padding-inline: 14px;
+  }
+
+  /* Header: igual a tus imágenes */
+  .header-container{
+    height: 62px;
+    padding: 0 14px;
+  }
+
+  /* Ocultar navegación en celular */
+  .header-nav{
+    display: none;
+  }
+
+  /* Íconos a la derecha compactos */
+  .header-right{
+    gap: 10px;
+  }
+
+  /* Input del search: que no explote en celular */
+  .header-search-input.active{
+    width: min(240px, 64vw);
+  }
+
+  /* Login: en celular conviene que sea circular (como “botón rojo”) */
+  .btn-login{
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+    font-size: 0; /* oculta texto "Ingresar" */
+  }
+  .btn-login i{
+    font-size: 18px; /* vuelve a mostrar el icono */
+  }
+
+  /* Featured (Hero) igual a captura */
+  .featured{
+    padding: 14px 0 6px;
+  }
+  .feature-card{
+    border-radius: 18px;
+  }
+  .feature-media{
+    height: 430px;
+  }
+  .feature-bookmark{
+    right: 14px;
+    top: 14px;
+    width: 42px;
+    height: 42px;
+  }
+  .feature-body{
+    padding: 18px;
+  }
+  .chip{
+    font-size: .78rem;
+    padding: 6px 10px;
+    border-radius: 12px;
+  }
+  .feature-body h1{
+    font-size: 1.25rem;
+    line-height: 1.15;
+  }
+  .feature-body .desc{
+    font-size: .95rem;
+    margin-bottom: 12px;
+  }
+
+  /* Últimas Noticias: 1 columna y card “natural” */
+  .cards-3{
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .card{
+    flex: 1 1 auto;
+    height: auto;         /* clave */
+    width: 100%;
+  }
+  .card .cover{
+    height: 210px;
+  }
+  .card .body{
+    padding: 12px;
+    padding-bottom: 14px;
+  }
+
+  /* En mobile: que “Leer más” no sea absolute (evita solapes) */
+  .card .read-more{
+    position: static;
+    margin-top: 8px;
+  }
+
+  /* Tabs como en tu captura: varias filas y centrado */
+  .tabs .tabs-controls{
+    overflow: visible;
+    flex-wrap: wrap;
+    border-radius: 14px;
+    padding: 10px;
+    justify-content: center;
+    gap: 10px;
+  }
+  .tabs label{
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Widgets: full width y proporciones prolijas */
+  .widget{
+    padding: 14px;
+  }
+
+  .widget.weather{
+    padding: 16px;
+  }
+  .weather-icon{
+    font-size: 44px;
+  }
+  .widget.weather .weather-temp .temp{
+    font-size: 58px;
+  }
+  .widget.weather .weather-stats{
+    justify-content: space-between;
+  }
+  .widget.weather .stat{
+    min-width: 0;
+  }
+  .weather-forecast{
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  /* Videos: se siente como carrusel móvil */
+  .videos-track{
+    gap: 10px;
+  }
+  .video-card{
+    min-width: 260px;
+  }
+  .carousel-btn{
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer-top {
+    padding: 34px 0 18px;
+  }
+
+  /* Pasa de columnas a 1 columna */
+  .container.footer-top {
+    flex-direction: column;
+    gap: 26px;
+    align-items: flex-start;
+    padding-left: 5px;
+  }
+
+  .ft-col,
+  .brand-col {
+    flex: none;
+    width: 100%;
+  }
+
+  .brand-desc {
+    max-width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .socials {
+    margin-top: 14px;
+    gap: 10px;
+  }
+
+  .social {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Títulos y listas como en tu captura */
+  .ft-col h4 {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .links {
+    gap: 12px;
+  }
+
+  .links a {
+    font-size: 14px;
+  }
+
+  /* Footer bottom: apilado */
+  .footer-bottom {
+    padding: 14px 0;
+  }
+
+  .footer-bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .footer-bottom .footer-links {
+    margin-right: 0;
+    flex-wrap: wrap;
+    gap: 12px;
+    white-space: normal;
+  }
+
+  .footer-bottom .footer-links a + a {
+    margin-left: 0;
+  }
+}
+
+
+/* ----------- <= 420px (mobile chico) ----------- */
+@media (max-width: 420px) {
+  .header-search-input.active{
+    width: 70vw;
+    right: 48px;
+  }
+  .feature-media{
+    height: 410px;
+  }
+  .card .cover{
+    height: 190px;
+  }
+}
+
+
+/* ============================
+   Article modal responsive
+   ============================ */
+
+/* <= 1024px: el modal usa casi todo el ancho y menos padding alrededor */
+@media (max-width: 1024px) {
+  #article-modal.backdrop {
+    padding: 14px; /* antes 24px en style.css */
+  }
+  #article-modal .modal {
+    width: min(96vw, 980px);
+    border-radius: 14px;
+  }
+}
+
+/* <= 700px: header del modal se apila y los iconos no se salen */
+@media (max-width: 700px) {
+  #article-modal.backdrop {
+    padding: 10px;
+  }
+
+  #article-modal .modal {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 14px;
+  }
+
+  #article-modal .modal__head {
+    padding: 10px 12px;
+  }
+
+  /* el header no rompa en 2 filas */
+  #article-modal .head__row {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  /* Badge: flexible pero controlado */
+  #article-modal .badge {
+    flex: 0 1 auto;         
+    min-width: 0;             
+    font-size: .78rem;
+    padding: 6px 10px;
+    white-space: nowrap;      
+    overflow: hidden;
+    text-overflow: ellipsis;  
+  }
+
+  /* Iconos: tamaño fijo, nunca se rompen */
+  #article-modal .iconrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;           /* 🔑 no se achican */
+  }
+
+
+  /* botones un toque más chicos en mobile */
+  #article-modal .iconbtn,
+  #article-modal .close-link {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* si los separadores molestan en 2 filas, los ocultamos */
+  #article-modal .sep {
+    display: none;
+  }
+
+  /* hero + contenido más compacto */
+  #article-modal .hero {
+    height: 210px;
+  }
+
+  #article-modal .wrap {
+    padding: 14px;
+  }
+
+  #article-modal .title {
+    font-size: 1.2rem;
+    line-height: 1.18;
+  }
+
+  /* CTAs en columna para que no exploten */
+  #article-modal .cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Autor: apilado */
+  #article-modal .author {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+}
+
+/* <= 420px: ultra compacto */
+@media (max-width: 420px) {
+  #article-modal .hero {
+    height: 180px;
+  }
+  #article-modal .iconbtn,
+  #article-modal .close-link {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Search: en mobile baja debajo del header y queda centrado */
+@media (max-width: 700px) {
+  .header-search-input.active{
+    position: fixed;                 
+    left: 50%;
+    right: auto;                     
+    top: 74px;                       
+    transform: translateX(-50%);     
+    width: min(92vw, 520px);         
+    z-index: 999;                    
+  }
+}

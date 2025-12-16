@@ -94,6 +94,7 @@ const tbody = document.querySelector('#tbl tbody');
 function renderRows(records){
   tbody.innerHTML = records.map(rec=>{
     const flds = rec.fields||{};
+    const star = flds.Destacada ? ' ⭐' : '';
     return `<tr>
       <td>${esc(flds.Titulo||'')}</td>
       <td><span class="pill">${esc(flds.Categoria||'')}</span></td>
@@ -150,6 +151,7 @@ function formToFields(){
     P2: f.P2.value.trim(),
     P3: f.P3.value.trim(),
     Media: f.Media.value.trim(),
+    Destacada: !!f.Destacada?.checked,
   };
   return fields;
 }
@@ -168,6 +170,7 @@ function fillFormFromRecord(rec){
   f.P3.value = x.P3||'';
   f.Media.value = x.Media||'';
   f.ImgPrev.src = f.Img.value||'';
+  if (f.Destacada) f.Destacada.checked = !!x.Destacada;
 
   document.getElementById('btnUpdate').disabled = false;
   document.getElementById('btnDelete').disabled = false;
@@ -181,6 +184,7 @@ function resetForm(){
     f[k].value = '';
   }
   f.Categoria.value = 'Política';
+  if (f.Destacada) f.Destacada.checked = false;
   f.ImgPrev.src = '';
   document.getElementById('btnUpdate').disabled = true;
   document.getElementById('btnDelete').disabled = true;
