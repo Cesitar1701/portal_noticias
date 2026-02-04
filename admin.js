@@ -31,8 +31,9 @@ const f = {
   P1: document.getElementById('fP1'),
   P2: document.getElementById('fP2'),
   P3: document.getElementById('fP3'),
-  Media: document.getElementById('fMediaUrl'), // ← input de Media URL
+  Media: document.getElementById('fMediaUrl'), 
   ImgPrev: document.getElementById('imgPrev'),
+  Destacada: document.getElementById('fDestacada'),
 };
 
 // Slug automático solo para mostrar (en Airtable es fórmula)
@@ -51,7 +52,7 @@ f.Img.addEventListener('input', ()=>{
 const baseURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
 let lastOffset = null, currentOffset = null;
 
-async function listRecords({query} = {}){
+async function listRecords({query} = {}){  // query es texto para buscar en Título o Slug
   const params = new URLSearchParams({ pageSize:'20' });
   if(viewName) params.set('view', viewName);
   if(currentOffset) params.set('offset', currentOffset);
@@ -63,7 +64,7 @@ async function listRecords({query} = {}){
   return r.json();
 }
 
-async function createRecord(fields){
+async function createRecord(fields){ // fields es un objeto con los campos a crear
   const r = await fetch(baseURL, {
     method:'POST', headers:headers(),
     body: JSON.stringify({ records:[{ fields }] })
@@ -72,7 +73,7 @@ async function createRecord(fields){
   return r.json();
 }
 
-async function updateRecord(id, fields){
+async function updateRecord(id, fields){ // fields es un objeto con los campos a actualizar
   const r = await fetch(baseURL, {
     method:'PATCH', headers:headers(),
     body: JSON.stringify({ records:[{ id, fields }] })
@@ -81,7 +82,7 @@ async function updateRecord(id, fields){
   return r.json();
 }
 
-async function deleteRecord(id){
+async function deleteRecord(id){ // id es el recordId a eliminar
   const r = await fetch(`${baseURL}?records[]=${encodeURIComponent(id)}`, {
     method:'DELETE', headers:headers()
   });
@@ -156,7 +157,7 @@ function formToFields(){
   return fields;
 }
 
-function fillFormFromRecord(rec){
+function fillFormFromRecord(rec){ //
   f.id = rec.id;
   const x = rec.fields||{};
   f.Titulo.value = x.Titulo||'';

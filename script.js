@@ -127,7 +127,7 @@ function renderCardHTML(rec) { //Esta función toma una noticia (un objeto rec) 
   window.__fillModal = fillModal;
 
   // Handler “simple” por si se usa antes de que cargue Airtable 
-  window.__handleReadMoreFromArticle = function (articleEl) {
+  window.__handleReadMoreFromArticle = function (articleEl) { // handler simple que solo llena el modal con lo del artículo
     const data = extractFromCard(articleEl);
     fillModal(data);
     openModal();
@@ -768,14 +768,14 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   });
 
   // -------- Airtable: registrar usuarios --------
-  const airtableUsersTable = 'Usuarios';
+  const airtableUsersTable = 'Usuarios'; //endpoint de Airtable para usuarios
   const airtableUsersURL = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(airtableUsersTable)}`;
   const usersHeaders = {
-    'Authorization': `Bearer ${airtabletoken}`,
+    'Authorization': `Bearer ${airtabletoken}`, //header de autorizacion
     'Content-Type': 'application/json',
   };
 
-  async function registerUser({ name, email, password }) {
+  async function registerUser({ name, email, password }) { // funcion para registrar usuario
     const body = {
       records: [
         {
@@ -789,7 +789,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
       ],
     };
 
-    const res = await fetch(airtableUsersURL, {
+    const res = await fetch(airtableUsersURL, { // fetch para registrar usuario
       method: 'POST',
       headers: usersHeaders,
       body: JSON.stringify(body),
@@ -802,14 +802,14 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   }
 
   // -------- Submit del formulario --------
-  authForm.addEventListener('submit', async (e) => {
+  authForm.addEventListener('submit', async (e) => { // manejador del submit del formulario
     e.preventDefault();
     authMsg.textContent = '';
     authMsg.className = 'auth-message';
 
-    const name = (inputName.value || '').trim();
-    const userOrEmail = (inputUser.value || '').trim();
-    const password = (inputPass.value || '').trim();
+    const name = (inputName.value || '').trim(); // solo para registro
+    const userOrEmail = (inputUser.value || '').trim(); // puede ser usuario o email
+    const password = (inputPass.value || '').trim(); // contraseña
 
     if (!userOrEmail || !password) {
       authMsg.textContent = 'Completá usuario/email y contraseña.';
@@ -819,14 +819,14 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 
     // ADMIN 
     if (userOrEmail === 'Admin' && password === 'admin') {
-      window.open('admin.html', '_blank');
+      window.open('admin.html', '_blank'); // abrir admin en nueva pestaña
       closeAuth();
       return;
     }
 
-    try {
-      if (mode === 'register') {
-        await registerUser({ name, email: userOrEmail, password });
+    try { // intento de registro de usuario en Airtable
+      if (mode === 'register') {  
+        await registerUser({ name, email: userOrEmail, password }); // 
       }
 
       // En ambos casos (login o registro) dejamos al usuario logueado
@@ -878,7 +878,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   });
 
   // -------- Estado inicial --------
-  const existingUser = getStoredUser();
+  const existingUser = getStoredUser(); // en caso de que haya un usuario guardado en localStorage se lo aplica
   if (existingUser) {
     applyLoggedInUI(existingUser);
   } else {
@@ -912,7 +912,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   let toastTimeoutId = null;
 
   // -------- utils de storage --------
-  function getCurrentUser() {
+  function getCurrentUser() { // obtiene el usuario logueado desde localStorage
     try {
       const raw = localStorage.getItem(AUTH_KEY);
       return raw ? JSON.parse(raw) : null;
@@ -921,13 +921,13 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     }
   }
 
-  function getUserKey() {
+  function getUserKey() { // obtiene el email del usuario logueado para usar como key
     const u = getCurrentUser();
     const email = (u && u.email) || '';
     return email.trim().toLowerCase() || null;
   }
 
-  function loadSavedMap() {
+  function loadSavedMap() { // carga el mapa de guardados desde localStorage
     try {
       const raw = localStorage.getItem(SAVED_KEY);
       return raw ? JSON.parse(raw) : {};
@@ -936,25 +936,25 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     }
   }
 
-  function saveSavedMap(map) {
+  function saveSavedMap(map) { // guarda el mapa de guardados en localStorage
     try {
       localStorage.setItem(SAVED_KEY, JSON.stringify(map));
     } catch { }
   }
 
-  function getSavedForCurrentUser() {
+  function getSavedForCurrentUser() { // obtiene el array de noticias guardadas para el usuario actual
     const key = getUserKey();
     if (!key) return [];
     const map = loadSavedMap();
     return Array.isArray(map[key]) ? map[key] : [];
   }
-  function updateSavedCountBadge() {
+  function updateSavedCountBadge() { // actualiza el contador de noticias guardadas en el header
     if (!savedCountEl) return;
 
-    const saved = getSavedForCurrentUser();
+    const saved = getSavedForCurrentUser(); // obtiene las noticias guardadas del usuario actual
     const n = saved.length;
 
-    if (n > 0) {
+    if (n > 0) { // si hay noticias guardadas, muestra el contador
       savedCountEl.textContent = n;
       savedCountEl.classList.add('visible');
     } else {
@@ -964,7 +964,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   }
 
   // -------- UI helpers --------
-  function showLoginToast() {
+  function showLoginToast() { 
     if (!loginToastEl) {
       alert('Tenés que iniciar sesión para poder guardar noticias.');
       return;
@@ -977,7 +977,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     }, 2600);
   }
 
-  function setBookmarkButtonState(btn, isSaved) {
+  function setBookmarkButtonState(btn, isSaved) { // actualiza el estado visual del botón de guardado
     if (!btn) return;
     btn.classList.toggle('is-saved', isSaved);
     const icon = btn.querySelector('i');
@@ -987,8 +987,8 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     }
   }
 
-  function updateCardBookmarksUI() {
-    const saved = getSavedForCurrentUser();
+  function updateCardBookmarksUI() { // actualiza todos los botones de guardado en las cards SEGUN CADA USUARIO
+    const saved = getSavedForCurrentUser(); 
     const savedSet = new Set(saved.map(x => x.slug));
 
     document.querySelectorAll('.card-bookmark').forEach((btn) => {
@@ -1002,7 +1002,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   }
 
   // -------- lógica de toggle desde la card --------
-  function toggleSaveFromCard(cardEl) {
+  function toggleSaveFromCard(cardEl) { //
     const userKey = getUserKey();
     if (!userKey) {
       showLoginToast();
@@ -1264,7 +1264,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     "Content-Type": "application/json",
   };
 
-  async function sendMessage(data) {
+  async function sendMessage(data) { // función para enviar el mensaje a Airtable
     const body = {
       records: [
         {
@@ -1297,17 +1297,17 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     status.className = "contact-status";
 
     const fd = new FormData(form);
-    const data = {
+    const data = { // extrae los datos del formulario
       name: fd.get("name").trim(),
       email: fd.get("email").trim(),
       subject: fd.get("subject").trim(),
       message: fd.get("message").trim(),
     };
 
-    const btn = form.querySelector(".contact-submit");
+    const btn = form.querySelector(".contact-submit"); // deshabilita el botón mientras se envía
     btn.disabled = true;
 
-    try {
+    try { //
       await sendMessage(data);
       status.textContent = "¡Mensaje enviado correctamente!";
       status.classList.add("ok");
@@ -1329,7 +1329,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   const input = document.getElementById('header-search-input');
   if (!btn || !input) return;
 
-  function closeInput() {
+  function closeInput() { // cierra el input de búsqueda
     input.classList.remove('active');
     input.value = '';
     if (window.__applySearchFilter) {
@@ -1337,7 +1337,7 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
     }
   }
 
-  function toggleInput() {
+  function toggleInput() { // alterna el estado del input de búsqueda
     const willOpen = !input.classList.contains('active');
     if (willOpen) {
       input.classList.add('active');
