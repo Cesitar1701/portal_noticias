@@ -16,7 +16,6 @@
 </head>
 
 <body>
-  <a class="sr" href="#contenido">Saltar al contenido</a>
 
   <!-- Header (logo left + icons right) -->
   <header class="main-header">
@@ -25,22 +24,6 @@
         <a href="index.html" class="logo">
           <img src="img/logo2.png" alt="Logo" />
         </a>
-      </div>
-      <div class="menu-container">
-        <button class="menu-btn" id="menu-open" type="button" aria-label="Abrir menú"><i
-            class="fa-solid fa-bars"></i></button>
-        <nav class="header-nav">
-          <ul>
-            <li><a href="#">POLÍTICA</a></li>
-            <li><a href="#">SALUD</a></li>
-            <li><a href="#">POLICIALES</a></li>
-            <li><a href="#">TURISMO</a></li>
-            <li><a href="#">DEPORTES</a></li>
-            <li><a href="#">EMPLEOS</a></li>
-            <li><a href="#">TECNOLOGÍA</a></li>
-            <li><a href="#">INTERNACIONAL</a></li>
-          </ul>
-        </nav>
       </div>
 
       <div class="header-right">
@@ -87,23 +70,7 @@
   <main id="contenido" class="container">
     <!-- Featured -->
     <section class="featured" id="featured-slot">
-      <article class="feature-card">
-        <img class="feature-media"
-          src="https://images.unsplash.com/photo-1698844013403-b7c4cf0d3b2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-          alt="Partido de fútbol en estadio">
-        <!-- bookmark button top-right -->
-        <button class="feature-bookmark" aria-label="Guardar noticia"><i class="fa-regular fa-bookmark"></i></button>
-        <div class="feature-body">
-          <div class="feature-content">
-            <span class="chip">DEPORTES</span>
-            <div class="meta"><i class="fa-regular fa-clock"></i> hace 1 hora</div>
-            <h1>Victoria histórica en el clásico: El equipo local consigue un triunfo memorable</h1>
-            <p class="desc">Un emocionante partido que mantuvo a todos al borde de sus asientos culminó con una victoria
-              espectacular del equipo local en el estadio lleno.</p>
-            <a class="read-more" href="#article-modal">Leer más →</a>
-          </div>
-        </div>
-      </article>
+      <!-- La noticia destacada se carga dinámicamente aquí a través de script.js -->
     </section>
 
     <!-- Grid principal: últimas + aside -->
@@ -111,45 +78,7 @@
       <div class="col-main">
         <h2 class="section-title with-accent">Últimas Noticias</h2>
         <div class="cards-3">
-          <article class="card">
-            <img
-              src="https://images.unsplash.com/photo-1698844013403-b7c4cf0d3b2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-              alt="" class="cover">
-            <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
-            <div class="body">
-              <span class="kicker">DEPORTES</span>
-              <div class="card-meta"><i class="fa-regular fa-clock"></i> hace 1 hora</div>
-              <h3>Victoria histórica en el clásico: El equipo local consigue un triunfo memorable</h3>
-              <p>Un emocionante partido que mantuvo a todos al borde de sus asientos.</p>
-              <a class="read-more" href="#article-modal">Leer más <span class="arrow">→</span></a>
-            </div>
-          </article>
-          <article class="card">
-            <img
-              src="https://images.unsplash.com/photo-1668874896975-7f874c90600a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-              alt="" class="cover">
-            <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
-            <div class="body">
-              <span class="kicker">SALUD</span>
-              <div class="card-meta"><i class="fa-regular fa-clock"></i> hace 2 horas</div>
-              <h3>Avance médico revolucionario en tratamiento de enfermedades crónicas</h3>
-              <p>Científicos anuncian un descubrimiento que podría cambiar el panorama de la medicina.</p>
-              <a class="read-more" href="#article-modal">Leer más <span class="arrow">→</span></a>
-            </div>
-          </article>
-          <article class="card">
-            <img
-              src="https://images.unsplash.com/photo-1510993968327-0766450f8a11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-              alt="" class="cover">
-            <button class="card-bookmark" aria-label="Guardar"><i class="fa-regular fa-bookmark"></i></button>
-            <div class="body">
-              <span class="kicker">POLÍTICA</span>
-              <div class="card-meta"><i class="fa-regular fa-clock"></i> hace 3 horas</div>
-              <h3>Nuevas reformas legislativas aprobadas en unanimidad</h3>
-              <p>El parlamento aprueba por unanimidad importantes reformas que impactarán en la economía.</p>
-              <a class="read-more" href="#article-modal">Leer más <span class="arrow">→</span></a>
-            </div>
-          </article>
+          <!-- Las noticias se cargan dinámicamente aquí a través de script.js -->
         </div>
 
         <!-- Tabs por categoría -->

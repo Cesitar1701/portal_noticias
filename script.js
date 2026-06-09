@@ -3,9 +3,26 @@ const airtabletoken = AIRTABLE_TOKEN;
 const baseId = BASE_ID;
 const tableName = TABLE_NAME;
 const viewName = "Grid view";
-/* ===========================
-   UTILIDADES
-   =========================== */
+/* ==========================================================
+   ÍNDICE DEL ARCHIVO (script.js)
+   ==========================================================
+   1. VARIABLES GLOBALES Y UTILIDADES
+   2. RENDER DE TARJETAS (CARDS)
+   3. MODAL DINÁMICO
+   4. TABS POR CATEGORÍA
+   5. AIRTABLE REST + PAGINACIÓN
+   6. ARTÍCULO COMPLETO Y REPRODUCTOR
+   7. AUTENTICACIÓN Y MENÚ DE USUARIO
+   8. GUARDADOS (BOOKMARKS)
+   9. MODAL DE CONTACTO Y ENVÍO
+   10. BUSCADOR EN EL HEADER
+   11. WIDGET COTIZACIONES (DÓLAR)
+   12. EVENTOS GLOBALES
+   ========================================================== */
+
+/* ==========================================================
+   1. VARIABLES GLOBALES Y UTILIDADES
+   ========================================================== */
 function timeAgo(dateStr) {
   if (!dateStr) return '';
   const n = new Date(), d = new Date(dateStr);
@@ -28,9 +45,11 @@ function esc(s) {  // evita que un título o bajada traída de Airtable rompa el
 const norm = s => (s || '').toString().trim().toLowerCase() // normaliza texto para buscar y comparar
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-/* ===========================
-   RENDER DE UNA CARD 
-   =========================== */
+
+
+/* ==========================================================
+   2. RENDER DE TARJETAS (CARDS)
+   ========================================================== */
 function renderCardHTML(rec) { //Esta función toma una noticia (un objeto rec) y devuelve HTML listo para mostrar una card de noticia en tu página.
   const title = esc(rec.title), cat = esc(rec.category), excerpt = esc(rec.excerpt);
   const img = esc(rec.hero), meta = timeAgo(rec.publishedAt);
@@ -51,9 +70,9 @@ function renderCardHTML(rec) { //Esta función toma una noticia (un objeto rec) 
 </article>`;
 }
 
-/* ===========================
-   MODAL DINÁMICO (estructura, abrir/cerrar, cabecera)
-   =========================== */
+/* ==========================================================
+   3. MODAL DINÁMICO
+   ========================================================== */
 (function () {
   const backdrop = document.getElementById('article-modal');
   if (!backdrop) return;
@@ -145,9 +164,9 @@ function renderCardHTML(rec) { //Esta función toma una noticia (un objeto rec) 
   });
 })();
 
-/* ===========================
-   TABS POR CATEGORÍA (acepta datos externos)
-   =========================== */
+/* ==========================================================
+   4. TABS POR CATEGORÍA
+   ========================================================== */
 (function () {
   const tabs = document.querySelector('.tabs');
   if (!tabs) return;
@@ -219,9 +238,9 @@ function renderCardHTML(rec) { //Esta función toma una noticia (un objeto rec) 
   render('todas');
 })();
 
-/* ===========================
-   AIRTABLE REST (con PAT) + Paginación
-   =========================== */
+/* ==========================================================
+   5. AIRTABLE REST + PAGINACIÓN
+   ========================================================== */
 
 // Mensaje de “cargando” bajo tabs + limpiar cards hardcodeadas
 (function showLoading() {
@@ -327,28 +346,25 @@ async function fetchAirtableAll() {
 
     // Pintar HERO si hay destacada
     if (featuredRec && featuredRec.slug) {
-      const heroArticle = document.querySelector('.featured .feature-card');
-      if (heroArticle) {
-        heroArticle.setAttribute('data-slug', featuredRec.slug);
-
-        // Para que el contador de guardados/bookmarks también lo detecte:
-        const b = heroArticle.querySelector('.feature-bookmark');
-        if (b) b.classList.add('card-bookmark');
-
-        const img = heroArticle.querySelector('img.feature-media');
-        if (img) { img.src = featuredRec.hero || img.src; img.alt = featuredRec.title || img.alt; }
-
-        const chip = heroArticle.querySelector('.chip');
-        if (chip) chip.textContent = featuredRec.category || 'NOTICIAS';
-
-        const meta = heroArticle.querySelector('.meta');
-        if (meta) meta.innerHTML = `<i class="fa-regular fa-clock"></i> ${timeAgo(featuredRec.publishedAt)}`;
-
-        const h1 = heroArticle.querySelector('h1');
-        if (h1) h1.textContent = featuredRec.title || '';
-
-        const desc = heroArticle.querySelector('.desc');
-        if (desc) desc.textContent = featuredRec.excerpt || '';
+      const featuredSlot = document.getElementById('featured-slot');
+      if (featuredSlot) {
+        featuredSlot.innerHTML = `
+          <article class="feature-card" data-slug="${esc(featuredRec.slug)}">
+            <img class="feature-media"
+              src="${esc(featuredRec.hero)}"
+              alt="${esc(featuredRec.title)}">
+            <button class="feature-bookmark card-bookmark" aria-label="Guardar noticia"><i class="fa-regular fa-bookmark"></i></button>
+            <div class="feature-body">
+              <div class="feature-content">
+                <span class="chip">${esc(featuredRec.category || 'NOTICIAS')}</span>
+                <div class="meta"><i class="fa-regular fa-clock"></i> ${timeAgo(featuredRec.publishedAt)}</div>
+                <h1>${esc(featuredRec.title)}</h1>
+                <p class="desc">${esc(featuredRec.excerpt)}</p>
+                <a class="read-more" href="#article-modal">Leer más →</a>
+              </div>
+            </div>
+          </article>
+        `;
       }
     }
 
@@ -433,7 +449,9 @@ async function fetchAirtableAll() {
   }
 })();
 
-/* ====== Modal: cuerpo largo traído por Slug desde Airtable ====== */
+/* ==========================================================
+   6. ARTÍCULO COMPLETO Y REPRODUCTOR
+   ========================================================== */
 
 // Detecta si es un enlace de YouTube
 function isYouTube(url) {
@@ -626,9 +644,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 
 
 
-/* ===========================
-   Auth + Menú de usuario
-   =========================== */
+/* ==========================================================
+   7. AUTENTICACIÓN Y MENÚ DE USUARIO
+   ========================================================== */
 
 (function () {
   const btnLogin = document.querySelector('.btn-login');
@@ -892,9 +910,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   }
 })();
 
-/* ===========================
-   Guardados (bookmarks por usuario)
-   =========================== */
+/* ==========================================================
+   8. GUARDADOS (BOOKMARKS)
+   ========================================================== */
 
 (function () {
   const AUTH_KEY = 'noticias_auth_user';       // donde se guarda el usuario logueado
@@ -1196,9 +1214,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
 })();
 
 
-/* ===========================
-   Modal de Contacto (abrir/cerrar)
-   =========================== */
+/* ==========================================================
+   9. MODAL DE CONTACTO Y ENVÍO
+   ========================================================== */
 (function () {
   const footerBtn = document.getElementById('footer-contact');
   const backdrop = document.getElementById('contact-modal');
@@ -1321,9 +1339,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   });
 })();
 
-/* ===========================
-   Buscador en el header
-   =========================== */
+/* ==========================================================
+   10. BUSCADOR EN EL HEADER
+   ========================================================== */
 (function () {
   const btn = document.getElementById('header-search-btn');
   const input = document.getElementById('header-search-input');
@@ -1383,7 +1401,9 @@ window.__handleReadMoreFromArticle = async function (articleEl) {
   });
 })();
 
-// Inicio JS Dolar Cotizaciones
+/* ==========================================================
+   11. WIDGET COTIZACIONES (DÓLAR)
+   ========================================================== */
 async function loadDolarCotizaciones() {
   try {
     const res = await fetch("https://dolarapi.com/v1/dolares");
@@ -1436,9 +1456,12 @@ async function loadDolarCotizaciones() {
 }
 
 loadDolarCotizaciones();
-setInterval(loadDolarCotizaciones, 300000); // cada 5 minutos}}
+setInterval(loadDolarCotizaciones, 300000); // cada 5 minutos
 
 
+/* ==========================================================
+   12. EVENTOS GLOBALES
+   ========================================================== */
 (function bindFeaturedReadMore() {
   const featured = document.querySelector('.featured');
   if (!featured) return;
