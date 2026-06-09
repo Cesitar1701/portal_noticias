@@ -1,0 +1,12 @@
+services:
+  portal-noticias:
+    # Le indica a Compose que construya la imagen usando el Dockerfile de esta misma carpeta
+    build: .
+    # Le asigna un nombre formal a la imagen usando la variable que definimos en el .env
+    image: ${DOCKERHUB_USER}/portal-noticias:latest
+    # Nombre que tendrá el contenedor cuando esté corriendo
+    container_name: portal_noticias
+    ports:
+      - "${PORT}:80"
+    # Si el contenedor se cae por algún error, Docker lo reinicia automáticamente
+    restart: always
