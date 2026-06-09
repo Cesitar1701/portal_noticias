@@ -1,0 +1,7 @@
+# Ocultar credenciales locales
+env.js
+.env
+
+# Archivos del sistema o del editor
+.DS_Store
+.vscode/

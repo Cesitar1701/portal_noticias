@@ -8,5 +8,7 @@ services:
     container_name: portal_noticias
     ports:
       - "${PORT}:80"
+    volumes:
+      - ./env.js:/usr/share/nginx/html/env.js
     # Si el contenedor se cae por algún error, Docker lo reinicia automáticamente
     restart: always
